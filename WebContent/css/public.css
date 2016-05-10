@@ -1,0 +1,48 @@
+/*初始化*/
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td, div{
+    margin: 0;
+    padding: 0;
+    font-family: Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+    color: #222;
+    font-size: 13px;
+    outline: none;
+}
+*::selection {
+    color: #48aec4;
+    background: #DCDCDC;
+}
+*::-moz-selection {
+    color: #48aec4;
+    background: #DCDCDC;
+}
+img {
+    border: none;
+}
+a {
+    color: #222;
+    text-decoration: none;
+}
+em {
+    font-style: normal;
+}
+body {
+    background:#fff;
+}
+ul li{
+    list-style:none;
+}
+input[type="radio"]{
+	cursor: pointer;
+}
+header,nav,footer,article,section{
+    display: block;
+}
+.icon {
+    /*字体样式设置*/
+    font-family: "icon";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

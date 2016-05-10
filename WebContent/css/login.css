@@ -1,0 +1,44 @@
+.main-banner {
+	background: url(../img/banner.jpg);
+	background-size: 100% 100%;
+	margin-bottom: 0;;
+}
+.main-over {
+	background: rgba(0, 0, 0, 0.6);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top:0;
+	left: 0;
+}
+.main-nav {
+	background-color: rgba(0, 0, 0, 0.8);
+	border-bottom: none;
+	font-weight: 700;
+}
+.main-nav a{
+	font-size: 15px;
+}
+.main-logo {
+	font-size: 30px;
+	/*color:#FFFFFF;*/
+}
+form,div[role="form"]{
+	background: rgba(0, 0, 0, 0.7);
+	margin-top: 10%;
+	border-radius: 5px;
+}
+.title span{
+	color:#ffffff;
+	font-size: 42px;
+}
+label{
+	font-size: 17px;
+	color:#ffffff;
+}
+.form-group{
+	margin-top: 10px;
+}
+button span{
+	font-size: 24px;
+}

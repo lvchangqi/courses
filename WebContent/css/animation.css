@@ -1,0 +1,39 @@
+.btn-groups{
+	border: 1px solid #f08000;
+	border-radius: 6px;	
+	margin-bottom: 20px;
+	height: 39px;
+}
+.unbtn{
+	line-height: 40px;
+	font-size: 24px;
+	color: #f08000;
+	position: absolute;
+	left: 47%;
+}
+.isbtn{
+	background-color: #f08000;
+	color: #FFFFFF;
+	position: absolute;
+	width: 0;
+	opacity: 0;
+}
+.isbtn:hover{
+	background-color: #ed9c28;
+	color: #ffffff;
+}
+.loading{
+	display: none;
+	font-size: 59px; 
+	color:#f08000;
+	animation: load 2s linear infinite;
+}
+@keyframes load{
+	0%{
+		transform: rotate(0deg);
+	}
+	100%{
+		transform: rotate(360deg);
+	}
+}
+

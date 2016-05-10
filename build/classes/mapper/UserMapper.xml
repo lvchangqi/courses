@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qingtao.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.qingtao.pojo.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="studentid" property="studentid" jdbcType="BIGINT" />
+    <result column="qq" property="qq" jdbcType="BIGINT" />
+    <result column="phone" property="phone" jdbcType="BIGINT" />
+    <result column="role" property="role" jdbcType="VARCHAR" />
+    <result column="promiss" property="promiss" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, username, password, studentid, qq, phone, role, promiss
+  </sql>
+ 	
+</mapper>
