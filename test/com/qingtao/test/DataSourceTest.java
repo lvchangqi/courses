@@ -5,7 +5,8 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.qingtao.dao.UserMapper;
+import com.qingtao.pojo.User;
+import com.qingtao.serviceI.UserServiceI;
 
 @SuppressWarnings("all")
 public class DataSourceTest {
@@ -20,7 +21,8 @@ public class DataSourceTest {
 
 	@Test
 	public void test() {
-			UserMapper um = act.getBean(UserMapper.class);
+		UserServiceI userServiceI = act.getBean(UserServiceI.class);
+		System.out.println(userServiceI.selectOneUser(new User()));
 	}
 
 }

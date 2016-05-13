@@ -81,6 +81,16 @@ public class User {
         this.promiss = promiss == null ? null : promiss.trim();
     }
 
+	public User() {
+		super();
+	}
+
+	public User(String username, Long studentid) {
+		super();
+		this.username = username;
+		this.studentid = studentid;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", studentid=" + studentid

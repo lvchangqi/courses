@@ -1,18 +1,82 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.qingtao.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.qingtao.pojo.User" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="username" property="username" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="studentid" property="studentid" jdbcType="BIGINT" />
-    <result column="qq" property="qq" jdbcType="BIGINT" />
-    <result column="phone" property="phone" jdbcType="BIGINT" />
-    <result column="role" property="role" jdbcType="VARCHAR" />
-    <result column="promiss" property="promiss" jdbcType="CHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, username, password, studentid, qq, phone, role, promiss
-  </sql>
- 	
+<mapper namespace="com.qingtao.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="com.qingtao.pojo.User">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="studentid" property="studentid" jdbcType="BIGINT" />
+		<result column="qq" property="qq" jdbcType="BIGINT" />
+		<result column="phone" property="phone" jdbcType="BIGINT" />
+		<result column="role" property="role" jdbcType="VARCHAR" />
+		<result column="promiss" property="promiss" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, username, password, studentid, qq, phone, role, promiss
+	</sql>
+	
+	<!-- 取出用户(检测用户名,) -->
+	<select id="selectOneUser" parameterType="com.qingtao.pojo.User" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List"/>
+		from user 
+		<if test="username != null">
+			where username = #{username,jdbcType=VARCHAR}
+		</if>
+		<if test="studentid != null">
+			where studentid = #{studentid,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 注册 -->
+	<insert id="insertSelective" parameterType="com.qingtao.pojo.User">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="username != null">
+				username,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="studentid != null">
+				studentid,
+			</if>
+			<if test="qq != null">
+				qq,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="role != null">
+				role,
+			</if>
+			<if test="promiss != null">
+				promiss,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="studentid != null">
+				#{studentid,jdbcType=BIGINT},
+			</if>
+			<if test="qq != null">
+				#{qq,jdbcType=BIGINT},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=BIGINT},
+			</if>
+			<if test="role != null">
+				#{role,jdbcType=VARCHAR},
+			</if>
+			<if test="promiss != null">
+				#{promiss,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+
 </mapper>

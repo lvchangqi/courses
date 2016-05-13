@@ -32,7 +32,7 @@
 							<li class="active"><a href="./login.jsp" role="login">登录</a></li>
 							<li><a href="./submit.jsp" role="submit">注册</a></li>
 							<li><a href="#" role="1">查看选题</a></li>
-							<li><a href="#" role="2" id="about">关于</a></li>
+							<li><a href="tencent://message/?uin=675812074&Menu=yes" role="2" id="about">关于</a></li>
 						</ul>
 					</div>
 				</div>
@@ -52,11 +52,11 @@
 						</div>
 						<div class="form-group text-center">
 							<label for="username">用户名:</label>
-							<input type="text" name="username" id="username" placeholder="username" required="required" class="form-control" />
+							<input type="text" name="username" id="username" placeholder="用户名" required="required" class="form-control" />
 						</div>
 						<div class="form-group text-center">
 							<label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
-							<input type="password" name="password" id="password" placeholder="password" required="required" class="form-control" />
+							<input type="password" name="password" id="password" placeholder="密码" required="required" class="form-control" />
 						</div>
 						<div class="form-group text-center" style="margin-bottom: 0;">
 							<label for="password">验证码:</label>
@@ -100,6 +100,8 @@
 	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script src="js/login.js"></script>
-	<script type="text/javascript">var basePath = "${pageContext.request.contextPath}"</script>
+	<script type="text/javascript">
+		var basePath = "${pageContext.request.contextPath}"
+	</script>
 
 </html>

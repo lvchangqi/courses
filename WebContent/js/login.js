@@ -26,7 +26,7 @@ $(function(){
 		$('#about').tooltip({
 			'placement': 'bottom',
 			'container': 'body',
-			'title': 'QQ:675812074',
+			'title': '联系我?',
 		});
 		
 		/**错误检测**/
