@@ -167,7 +167,7 @@ function can(flag) {
 	}
 }
 
-function errorShow(obj,title,success){
+function errorShow(obj,title){
 	/**错误检测**/
 	obj.attr('data-original-title',title)
 	obj.tooltip({

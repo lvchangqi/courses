@@ -14,7 +14,7 @@
 		<title>登录</title>
 	</head>
 
-	<body>
+	<body onkeypress="if(event.keyCode == 13) return false">
 		<div class="jumbotron main-banner"></div>
 		<div class="main-over">
 			<nav class="navbar navbar-default navbar-fixed-top navbar-inverse main-nav">
@@ -41,7 +41,7 @@
 			
 			<div class="container">
 				<div class="row">
-					<div class="col-md-4 col-md-push-4" role="form" id="login">
+					<form class="col-md-4 col-md-push-4" role="form" id="login">
 						<div class="form-group text-center title">
 							<div class="preloading">
 								<span class="icon-left-quote"></span>
@@ -74,7 +74,7 @@
 							<span class="icon-locked unbtn"></span>
 						</div>
 
-						<div class="form-group text-right">
+						<div class="form-group text-right" id="role">
 							<div class="radio-inline">
 								<label>
 							      <input type="radio" name="user" value="student" checked="checked">学生
@@ -91,7 +91,7 @@
 							    </label>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 				
 			</div>

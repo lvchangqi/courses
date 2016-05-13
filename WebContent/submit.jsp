@@ -14,7 +14,7 @@
 		<title>注册</title>
 	</head>
 
-	<body>
+	<body onkeypress="if(event.keyCode == 13) return false">
 		<div class="jumbotron main-banner"></div>
 		<div class="main-over">
 			<nav class="navbar navbar-default navbar-fixed-top navbar-inverse main-nav">

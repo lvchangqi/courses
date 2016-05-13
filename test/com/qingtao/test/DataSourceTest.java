@@ -1,5 +1,6 @@
 package com.qingtao.test;
 
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -23,6 +24,11 @@ public class DataSourceTest {
 	public void test() {
 		UserServiceI userServiceI = act.getBean(UserServiceI.class);
 		System.out.println(userServiceI.selectOneUser(new User()));
+	}
+	
+	@Test
+	public void MD5Test(){
+		System.out.println("0a1ae6ac331001d701026132c2bcf790".length());
 	}
 
 }
