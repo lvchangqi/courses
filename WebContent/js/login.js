@@ -56,7 +56,7 @@ $(function(){
 			if(flag)
 			$.post(basePath+'/user/login',{username:$name.val(),password:$pwd.val(),role:role},function(data){
 				if(!data){
-					window.location.replace(basePath+"/list.jsp")
+					window.location.replace(basePath+"/auth/control.jsp")
 				} else {
 					switch (data) {
 					case 'role':

@@ -84,7 +84,7 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam("username") String username, @RequestParam("password") String password,
-			@RequestParam("role") String role,ModelMap model) {
+			@RequestParam("role") String role, ModelMap model) {
 		String resultStr = null;
 		User user = userService.selectOneUser(new User(username, null));
 		// 得到subject
@@ -99,6 +99,17 @@ public class UserController {
 				// 权限相同时登录token
 				if (user.getRole().equals(role)) {
 					subject.login(token);
+					switch (user.getRole()) {
+					case "student":
+						user.setRole("学生");
+						break;
+					case "teacher":
+						user.setRole("老师");
+						break;
+					case "admin":
+						user.setRole("管理员");
+						break;
+					}
 					model.addAttribute(user);
 				} else {
 					resultStr = "role";
@@ -115,5 +126,19 @@ public class UserController {
 		}
 
 		return resultStr;
+	}
+
+	/**
+	 * 登出
+	 * 
+	 * @param map
+	 *            session
+	 * @return
+	 */
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(ModelMap map) {
+		map.clear();
+		SecurityUtils.getSubject().logout();
+		return "redirect:/login.jsp";
 	}
 }
