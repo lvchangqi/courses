@@ -39,9 +39,49 @@
 	content: "";
 	display: inline-block;
 	border-top: 25px solid transparent;
-    border-right: 27px solid #D5D5D5;
+    border-right: 27px solid #FFFFFF;
     border-bottom: 25px solid transparent;
 	position: absolute;
 	right: 0;
 	margin-top: -13px;
+}
+
+.btn-live{
+	background-color: #293846;
+	color: #A7B1C2;
+	border-radius:0;
+	border: 1px solid #293846;
+	border-bottom: none;
+}
+.btn-live:focus{
+	background-color: #293846;
+}
+.btn-live:hover{
+	background-color: #293846;
+	color:#ffffff;
+	transition: 1.2s;
+}
+.btn-close{
+	color: #293846;
+	display: inline-block;
+	font-size: 12px;
+	font-weight:800;
+	line-height:11px;
+	text-indent:0.1em;
+	width: 13px;
+	height: 13px;
+	border-radius:50%;
+	background-color: #A7B1C2;
+}
+.btn-close:hover{
+	background-color:#ffffff;
+	transition: 1.2s;
+}
+.btn-dead-style{
+	border: 1px solid #E7EAEC;
+	border-bottom : none;
+	background-color: #f2f3f1;
+}
+a:link{
+	text-decoration: none;
 }

@@ -8,6 +8,7 @@ $(function(){
 	
 	
 	$('.main-banner').css('height', window.innerHeight);
+	window.onresize = $('.main-banner').css('height', window.innerHeight);
 		var $name = $("input[name='username']")
 		var $pwd = $("input[name='password']")
 		var $check = $("input[name='check']")

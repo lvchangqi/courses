@@ -9,8 +9,8 @@ $(function(){
 	$(".isbtn").click(function() {
 		$(".preloading").css("display", "none").next().css("display", "block");
 	})
-	$('.main-banner').css('height', (window.innerHeight+28) + 'px');
-	$('.main-over').css('height', (window.innerHeight+28) + 'px');
+	changeWindow()
+	window.onresize = changeWindow()
 	/**样式调整**/
 	
 		var flag = new Array(false,false,false,false,false,false);//开关数组
@@ -24,7 +24,7 @@ $(function(){
 		
 	/**前端检测开始**/	
 	var regExp={
-		username: new RegExp('^[0-9_$*a-zA-Z\u4e00-\u9fa5]{2,10}$'),
+		username: new RegExp('^[\u4e00-\u9fa5]{2,15}$'),
 		password: new RegExp('^[0-9_a-zA-Z]{6,20}$'),
 		studentid1: new RegExp('^[0-9]{13}$'),
 		studentid2: new RegExp('^[0-9]{5}$'),
@@ -33,18 +33,19 @@ $(function(){
 	}
 	
 	/**用户名检测**/
+	errorShow($name,'请使用真实姓名')
 	$name.blur(function(){
 		if(regExp.username.test($(this).val())){
 			$.post(basePath+'/user/checkUser',{username:$(this).val()},function(data){
 				if(data){
-					errorShow($name,'恭喜你,此帐号可以使用')
+					errorShow($name,'恭喜你,此用户名可以使用')
 				} else {
-					errorShow($name,'此帐号已存在')
+					errorShow($name,'您已经注册过了,可以去登录')
 				}
 				flag[0] = data
 			})
 		} else {
-			errorShow($(this),'用户名为2-10位')
+			errorShow($(this),'用户名请使用真实姓名')
 			flag[0] = false
 		}
 	})
@@ -143,7 +144,10 @@ $(function(){
 	};
 	//验证码结束
 	/**前端检测结束**/
-
+	function changeWindow(){
+		$('.main-banner').css('height', (window.innerHeight+window.innerHeight*8/100) + 'px');
+		$('.main-over').css('height', (window.innerHeight+window.innerHeight*8/100) + 'px');
+	}
 })
 function can(flag) {
 	/**打开按钮**/
