@@ -23,4 +23,9 @@ public class UserService implements UserServiceI {
 		userMapper.insertSelective(user);
 	}
 
+	@Override
+	public void updateSelective(User user) {
+		userMapper.updateSelective(user);
+	}
+
 }

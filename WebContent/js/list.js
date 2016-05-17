@@ -1,4 +1,5 @@
 $(function(){
+	$('#calendar').removeClass('btn-dead-style')
 	$('.container-left,.container-right,.main-container').css('height', window.innerHeight);
 		$('iframe').css('height', window.innerHeight/11*10).siblings('div').css('height', window.innerHeight/11*1);
 		$('.menu').children().click(function() {
@@ -10,7 +11,6 @@ $(function(){
 		$('a').click(function(){
 			var src = $(this).attr('data-src')
 			$('iframe').attr('src',src)
-			return false;
 		})
 		
 		$('.breadcrumb').on("click",".btn .btn-close",function(e){
@@ -18,11 +18,12 @@ $(function(){
 			menu.splice($.inArray($(this).prev().text(),menu),1)
 			if(!$(this).parent().hasClass('btn-dead-style')){
 				$(this).parent().prev().removeClass('btn-dead-style')
-				$('.open-menu:contains('+$(this).parent().prev().text().split('x')[0]+')').click()
+				$('.open-menu:contains('+$(this).parent().prev().text().split('x')[0]+')').addClass('live').parent().siblings().find('li').removeClass('live')
 				$('iframe').attr('src','')
 			}
 			if(menu.length===0){
 				$('.open-menu:contains('+$(this).parent().text().split('x')[0]+')').removeClass('live')
+				$('.btn:contains("主页")').removeClass('btn-dead-style')
 				$('iframe').attr('src','')
 			}
 			$(this).parent().remove()

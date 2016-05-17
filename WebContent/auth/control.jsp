@@ -1,5 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<%
+	int y,m,d,q;
+	String xq = "";
+	Calendar c = Calendar.getInstance();
+	y = c.get(Calendar.YEAR); //年
+	m = c.get(Calendar.MONTH) + 1; //月
+	d = c.get(Calendar.DAY_OF_MONTH); //日
+	q = c.get(Calendar.DAY_OF_WEEK); //星期
+	if(q==1) xq = "星期天";
+	if(q==2) xq = "星期一";
+	if(q==3) xq = "星期二";
+	if(q==4) xq = "星期三";
+	if(q==5) xq = "星期四";
+	if(q==6) xq = "星期五";
+	if(q==7) xq = "星期六";
+ %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -20,29 +37,33 @@
 		<div class="main-container">
 			<div class="col-md-2 container-left">
 				<div class="text-center left-header">
-					<span style="display:block;padding-top: 14%;">欢迎你!</span>
-					<div class="btn-group">
-						<div class="dropdown-toggle down-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span style="display:block;padding-top: 30px;">欢迎你!</span>
+						<div class="dropdown-toggle down-btn">
 							<span>${user.username}(${user.role})</span>
-							<span class="caret"></span>
 						</div>
-						<ul class="dropdown-menu  left-menu">
-							<li><a href="#" data-src="./iframe/one.jsp" class="open-menu">修改个人信息</a></li>
-							<li><a href="#openModal" onclick="$('#openModal').click()">修改密码</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="${pageContext.request.contextPath}/user/logout">退出</a></li>
-						</ul>
-					</div>
 				</div>
 				<ul class="menu">
-					<a href="#">
-						<li class="open-menu">课题选择</li>
+				
+					<shiro:hasRole name="student">
+					<a href="#select">
+						<li class="open-menu"><span class="icon icon-clipboard2"></span>课题选择</li>
 					</a>
-					<a href="#">
-						<li class="open-menu">课程设计上传</li>
+					<a href="#upload">
+						<li class="open-menu"><span class="icon icon-clipboard3"></span>课程设计上传</li>
 					</a>
-					<a href="#">
-						<li class="open-menu">预约指导老师</li>
+					<a href="#appointment">
+						<li class="open-menu"><span class="icon icon-chat"></span>预约指导老师</li>
+					</a>
+					</shiro:hasRole>
+					
+					<a href="#self" data-src="./iframe/one.jsp">
+						<li class="open-menu"><span class="icon icon-user"></span>修改个人信息</li>
+					</a>
+					<a href="#openModal" onclick="$('#openModal').click()">
+						<li><span class="icon icon-locked"></span>修改密码</li>
+					</a>
+					<a href="${pageContext.request.contextPath}/user/logout">
+						<li><span class="icon icon-switch2"></span>安全退出</li>
 					</a>
 				</ul>
 			</div>
@@ -52,6 +73,10 @@
 						<div class="btn btn-primary btn-dead btn-live ">
 							主页
 						</div>
+						<time class="text-muted" id="calendar" style="float: right;font-size: 15px;">
+							<span class="icon-calendar" style="font-size: 23px;"></span>
+							<%=y %>年<%=m %>月<%=d %>日 <%=xq %>
+						</time>
 					</div>
 				</div>
 				<iframe src="" width="100%" frameborder="no" style="position: absolute;bottom: 0"></iframe>
@@ -60,5 +85,7 @@
 		<jsp:include page="./modal.jsp"/>
 	</body>
 	<script type="text/javascript" src="../js/list.js"></script>
-
+	<script type="text/javascript">
+		var basePath ='${pageContext.request.contextPath}'
+	</script>
 </html>

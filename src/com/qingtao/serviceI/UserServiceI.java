@@ -15,4 +15,10 @@ public interface UserServiceI {
 	 * @param user
 	 */
 	public void insertSelective(User user);
+	
+	/**
+	 * 更新用户
+	 * @param user
+	 */
+	public void updateSelective(User user);
 }

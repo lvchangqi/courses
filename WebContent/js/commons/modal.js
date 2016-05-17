@@ -24,11 +24,11 @@ $(function(){
 	
 	$('#updateButton').click(function(){
 		if(flag[0]&&flag[1]){
-			$.get('/Articles/user/updatePwd',{newpwd:newp.val()},function(data){
+			$.get( basePath+'/user/updatePwd',{newpwd:newp.val()},function(data){
 				if(data){
 					$('small').text('*修改成功,本次登录信息过期,正在为您跳转到首页...').css('color','green')
 					setTimeout(function(){
-						window.location.href = "/Articles/user/loginOut"
+						window.location.href = basePath+"/user/logout"
 					}, 1500)
 				}
 			})	

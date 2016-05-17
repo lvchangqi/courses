@@ -14,10 +14,20 @@ public class User {
     private Long phone;
 
     private String role;
+    
+    private String teacher = "无";
 
     private String promiss;
 
-    public Integer getId() {
+    public String getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(String teacher) {
+		this.teacher = teacher;
+	}
+
+	public Integer getId() {
         return id;
     }
 

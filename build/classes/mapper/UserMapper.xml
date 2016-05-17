@@ -9,10 +9,11 @@
 		<result column="qq" property="qq" jdbcType="BIGINT" />
 		<result column="phone" property="phone" jdbcType="BIGINT" />
 		<result column="role" property="role" jdbcType="VARCHAR" />
+		<result column="teacher" property="teacher" jdbcType="VARCHAR" />
 		<result column="promiss" property="promiss" jdbcType="CHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, username, password, studentid, qq, phone, role, promiss
+		id, username, password, studentid, qq, phone, role, teacher, promiss
 	</sql>
 	
 	<!-- 取出用户(检测用户名,) -->
@@ -27,6 +28,29 @@
 			where studentid = #{studentid,jdbcType=VARCHAR}
 		</if>
 	</select>
+	
+	<!-- 更新信息 -->
+	<update id="updateSelective" parameterType="com.qingtao.pojo.User">
+		update user
+    <set >
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=BIGINT},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=BIGINT},
+      </if>
+      <if test="teacher != null" >
+        teacher = #{teacher,jdbcType=VARCHAR},
+      </if>
+      <if test="promiss != null" >
+        promiss = #{promiss,jdbcType=CHAR},
+      </if>
+    </set>
+    where studentid = #{studentid,jdbcType=BIGINT}
+	</update>
 
 	<!-- 注册 -->
 	<insert id="insertSelective" parameterType="com.qingtao.pojo.User">

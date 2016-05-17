@@ -23,7 +23,11 @@ public class DataSourceTest {
 	@Test
 	public void test() {
 		UserServiceI userServiceI = act.getBean(UserServiceI.class);
-		System.out.println(userServiceI.selectOneUser(new User()));
+		User user = new User();
+		user.setStudentid(2014116020312l);
+		user.setPromiss("true");
+		userServiceI.updateSelective(user);
+		
 	}
 	
 	@Test

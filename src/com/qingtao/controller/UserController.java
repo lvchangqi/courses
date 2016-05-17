@@ -74,6 +74,47 @@ public class UserController {
 	}
 
 	/**
+	 * 修改密码
+	 * 
+	 * @param inputpwd
+	 * @param newpwd
+	 * @param map
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/updatePwd", method = RequestMethod.GET)
+	public String updatePwd(@RequestParam(value = "inputpwd", required = false) String inputpwd,
+			@RequestParam(value = "newpwd", required = false) String newpwd, ModelMap map) {
+
+		User user = (User) map.get("user");
+		String result = null;
+		String md5 = null;
+		String pwd = user.getPassword();
+
+		if (inputpwd != null) {
+			md5 = new Md5Hash(inputpwd, SALT).toString();
+		} else if (newpwd != null) {
+			user.setPassword(new Md5Hash(newpwd, SALT).toString());
+			userService.updateSelective(user);
+			result = "success";
+		}
+
+		if (md5 != null && md5.equals(pwd)) {
+			result = "success";
+		}
+
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/update",method=RequestMethod.POST)
+	public String update(User user,ModelMap map){
+		userService.updateSelective(user);
+		map.addAttribute(user);
+		return "success";
+	}
+
+	/**
 	 * 登录
 	 * 
 	 * @param username
