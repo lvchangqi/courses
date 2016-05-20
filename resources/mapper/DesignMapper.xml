@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qingtao.dao.DesignMapper">
+	<resultMap id="BaseResultMap" type="com.qingtao.pojo.Design">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="other" property="other" jdbcType="VARCHAR" />
+		<result column="tname" property="tname" jdbcType="VARCHAR" />
+		<result column="time" property="time" jdbcType="DATE" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.qingtao.pojo.Design"
+		extends="BaseResultMap">
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, title, other, tname, time
+	</sql>
+	<sql id="Blob_Column_List">
+		content
+	</sql>
+	<insert id="insertSelective" parameterType="com.qingtao.pojo.Design">
+		insert into design
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="other != null">
+				other,
+			</if>
+			<if test="tname != null">
+				tname,
+			</if>
+			<if test="time != null">
+				time,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="other != null">
+				#{other,jdbcType=VARCHAR},
+			</if>
+			<if test="tname != null">
+				#{tname,jdbcType=VARCHAR},
+			</if>
+			<if test="time != null">
+				#{time,jdbcType=DATE},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 查询课题 -->
+	<select id="selectAll" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+		select 
+		<include refid="Base_Column_List"/>,
+		<include refid="Blob_Column_List"/>
+		from design
+		<if test="tname != null">
+			where tname = '${tname}'
+		</if>
+	</select>
+	
+</mapper>

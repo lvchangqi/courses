@@ -24,14 +24,14 @@
 				        <span class="icon-bar"></span>
 				        <span class="icon-bar"></span>
 				    </button>
-					<a href="./login.jsp" class="navbar-brand main-logo" style="color:#FFFFFF; margin-left: 50px;">网上课程设计选课系统</a>
+					<a href="./login.jsp" class="navbar-brand main-logo" style="color:#FFFFFF; margin-left: 47.5%; font-size: 30px;" id="logo">课程(毕业)设计网上自动双选系统</a>
 				</div>
 				<div class="container">
 					<div class="collapse navbar-collapse" id="navbar-collapse">
 						<ul class="nav navbar-nav  navbar-right">
 							<li><a href="./login.jsp" role="login">登录</a></li>
 							<li class="active"><a href="./submit.jsp" role="submit">注册</a></li>
-							<li><a href="#" role="1">查看选题</a></li>
+							<li><a href="./found.jsp" role="found">找回密码</a></li>
 							<li><a href="tencent://message/?uin=675812074&Menu=yes" role="2" id="about">关于</a></li>
 						</ul>
 					</div>
@@ -44,47 +44,43 @@
 					<form class="col-md-4 col-md-push-4" style="margin-top: 4.5%;" action="${pageContext.request.contextPath}/user/submit" method="post">
 						<div class="form-group text-center title">
 							<div class="preloading">
-								<span class="icon-left-quote"></span>
 								<span>注册</span>
-								<span class="icon-right-quote"></span>
 							</div>
 							<div class="loading icon-spinner6"></div>
 						</div>
-						<div class="form-group text-center">
-							<label for="username">用户名:</label>
-							<input type="text" name="username" id="username" placeholder="用户名" required="required" class="form-control" />
+						<div class="form-group form-inline">
+							<label for="username">用&nbsp;户&nbsp;名:</label>
+							<input type="text" name="username" id="username" placeholder="用户名" required="required" class="form-control" style="width: 76%" />
 						</div>
-						<div class="form-group text-center">
-							<label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
-							<input type="password" name="password" id="password" placeholder="密码" required="required" class="form-control" />
+						<div class="form-group form-inline">
+							<label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
+							<input type="password" name="password" id="password" placeholder="密码" required="required" class="form-control" style="width: 76%"/>
 						</div>
-						<div class="form-group text-center">
+						<div class="form-group form-inline">
 							<label for="repassword">确认密码:</label>
-							<input type="password" name="repassword" id="repassword" placeholder="确认密码" required="required" class="form-control" />
+							<input type="password" name="repassword" id="repassword" placeholder="确认密码" required="required" class="form-control" style="width: 76%"/>
+						</div>
+						<div class="form-group form-inline">
+							<label for="promiss">真实姓名:</label>
+							<input type="text" name="promiss" id="promiss" placeholder="真实姓名" required="required" class="form-control" style="width: 76%"/>
+						</div>
+						<div class="form-group form-inline">
+							<label for="study">学(工)号:</label>
+							<input type="text" name="studentid" id="study" placeholder="学号/工号" required="required" class="form-control" style="width: 76%" />
+						</div>
+						<div class="form-group form-inline">
+							<label for="QQ">Q&nbsp;Q号码:</label>
+							<input type="text" name="qq" id="QQ" placeholder="QQ" required="required" class="form-control" style="width: 76%"/>
+						</div>
+						<div class="form-group form-inline">
+							<label for="tel">手机号码:</label>
+							<input type="tel" name="phone" id="tel" placeholder="手机号码" required="required" class="form-control" style="width: 76%"/>
 						</div>
 						
-						<div class="form-inline">
-						<div class="form-group text-center">
-							<label for="study">学号:</label>
-							<input type="text" name="studentid" id="study" placeholder="学号/工号" required="required" class="form-control" />
-						</div>
-						<div class="form-group text-center">
-							<label for="QQ">Q&nbsp;Q:</label>
-							<input type="text" name="qq" id="QQ" placeholder="QQ" required="required" class="form-control" />
-						</div>
-						<div class="form-group text-center">
-							<label for="tel">电话:</label>
-							<input type="tel" name="phone" id="tel" placeholder="电话号码" required="required" class="form-control" />
-						</div>
-						</div>
-						
-						<div class="form-group text-center" style="margin-bottom: 0;">
-							<label for="check">验证码:</label>
-						</div>
-						<div class="form-group form-inline" style="margin-top: 0;">
-							<img alt="验证码" src="" id="checkPic" height="34px" width="100px">
+						<div class="form-group form-inline">
+							<label for="check">验&nbsp;&nbsp;证&nbsp;&nbsp;码:</label>
 							<input type="text" name="check" id="check" placeholder="验证码" required="required" class="form-control" />
-							<button class="btn btn-link btn-sm " id="change">换张图片</button>
+							<img alt="验证码" src="" id="checkPic" height="34px" width="100px">
 						</div>
 
 						<div class=" btn-groups text-center">
@@ -94,7 +90,8 @@
 							<span class="icon-locked unbtn"></span>
 						</div>
 
-						<div class="form-group text-right">
+						<div class="form-group text-center">
+							<label>您的身份:</label>
 							<div class="radio-inline">
 								<label>
 							      <input type="radio" name="role" value="student" checked="checked">学生

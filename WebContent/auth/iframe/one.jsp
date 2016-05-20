@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <!DOCTYPE html>
 <html>
 
@@ -59,15 +60,15 @@
 						<dd class="to-ipt" role="tel">${user.phone}</dd>
 					</dl>
 					<dl class="dl-horizontal">
-						<div class="form-inline">
-							<dt>QQ:</dt>
-							<dd class="to-ipt" role="qq">${user.qq}</dd>
-						</div>
+						<dt>QQ:</dt>
+						<dd class="to-ipt" role="qq">${user.qq}</dd>	
 					</dl>
+					<shiro:hasRole name="student">
 					<dl class="dl-horizontal">
 						<dt>工作室指导老师:</dt>
 						<dd class="to-ipt" role="teacher">${user.teacher}</dd>
 					</dl>
+					</shiro:hasRole>
 				</form>
 			</div>
 		</div>
@@ -88,9 +89,7 @@
 			$('input[name="qq"]').val('${user.qq}')
 			
 			$('dd[role="teacher"]').html(teacher)
-			if('${user.teacher}' != '无'){
-				$('input[name="teacher"]').val('${user.teacher}')
-			}
+			$('input[name="teacher"]').val('${user.teacher}')
 		})
 		$('#btn-return').click(function(){
 			$(this).parent().css('display','none').siblings().css('display','inline')

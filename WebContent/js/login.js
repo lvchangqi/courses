@@ -1,14 +1,12 @@
 $(function(){
 	
 	//向后台请求验证码
-	$('#change').click(function(){
+	$('#checkPic').click(function(){
 		$('img').attr("src", basePath + "/safecode/create_sc?K=" + Math.random());
 	});
-	$('#change').click();
+	$('#checkPic').click();
 	
-	
-	$('.main-banner').css('height', window.innerHeight);
-	window.onresize = $('.main-banner').css('height', window.innerHeight);
+	$('.main-banner').css('height', $('form').height()*1.521);
 		var $name = $("input[name='username']")
 		var $pwd = $("input[name='password']")
 		var $check = $("input[name='check']")
@@ -37,13 +35,13 @@ $(function(){
 		        		$check.tooltip('destroy');
 		        		flag = true
 		        	} else {
-		        		$check.tooltip({
+		        		$('#checkPic').tooltip({
 		        			'placement': 'right',
 		        			'title' : '验证码错误',
 		        			'container': 'body',
 		        			'trigger' : 'click'
 		        		})
-		        		$check.tooltip('show');
+		        		$('#checkPic').tooltip('show');
 		        		flag = false
 		        	}
 		        }
@@ -61,7 +59,7 @@ $(function(){
 				} else {
 					switch (data) {
 					case 'role':
-						errorShow($role,'权限不匹配')
+						errorShow($('#role'),'权限不匹配')
 						break;
 
 					case 'not':

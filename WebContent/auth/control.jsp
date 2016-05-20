@@ -39,26 +39,32 @@
 				<div class="text-center left-header">
 					<span style="display:block;padding-top: 30px;">欢迎你!</span>
 						<div class="dropdown-toggle down-btn">
-							<span>${user.username}(${user.role})</span>
+							<span>${user.promiss}(${user.role})</span>
 						</div>
 				</div>
 				<ul class="menu">
 				
 					<shiro:hasRole name="student">
-					<a href="#select">
+					<a href="#select" data-src="">
 						<li class="open-menu"><span class="icon icon-clipboard2"></span>课题选择</li>
 					</a>
 					<a href="#upload">
-						<li class="open-menu"><span class="icon icon-clipboard3"></span>课程设计上传</li>
-					</a>
-					<a href="#appointment">
-						<li class="open-menu"><span class="icon icon-chat"></span>预约指导老师</li>
+						<li class="open-menu"><span class="icon icon-clipboard3"></span>文档及源码上传</li>
 					</a>
 					</shiro:hasRole>
-					
-					<a href="#self" data-src="./iframe/one.jsp">
-						<li class="open-menu"><span class="icon icon-user"></span>修改个人信息</li>
-					</a>
+					<shiro:hasRole name="teacher">
+						<a href="#self" data-src="./iframe/t-two.jsp">
+							<li class="open-menu"><span class="icon icon-file-text2"></span>查看已发布课题</li>
+						</a>
+						<a href="#self" data-src="./iframe/t-one.jsp">
+							<li class="open-menu"><span class="icon icon-edit"></span>发布课题</li>
+						</a>
+					</shiro:hasRole>
+					<shiro:hasAnyRoles name="student,teacher">
+						<a href="#self" data-src="./iframe/one.jsp">
+							<li class="open-menu"><span class="icon icon-user"></span>修改个人信息</li>
+						</a>
+					</shiro:hasAnyRoles>
 					<a href="#openModal" onclick="$('#openModal').click()">
 						<li><span class="icon icon-locked"></span>修改密码</li>
 					</a>
@@ -69,7 +75,11 @@
 			</div>
 			<div class="col-md-10 container-right" style="padding: 0;">
 				<div style="width: 100%;border-bottom: 2px solid #2f4050;">
-					<div class="breadcrumb" style="height: 100%;padding-top: 24px;">
+					<div class="breadcrumb" style="height: 100%;padding-top: 20px;">
+					<div style="position: absolute; margin-left: 10%;top:0;font-size:15px;" class="text-primary" id="sound">
+						<span class="icon-sound"></span>
+						<span style="font-size:13px">公告:  这是一则测试公告</span> 
+					</div>
 						<div class="btn btn-primary btn-dead btn-live ">
 							主页
 						</div>
@@ -79,7 +89,7 @@
 						</time>
 					</div>
 				</div>
-				<iframe src="" width="100%" frameborder="no" style="position: absolute;bottom: 0"></iframe>
+				<iframe src="./iframe/placeholder.jsp" width="100%" frameborder="no" style="position: absolute;bottom: 0;"></iframe>
 			</div>
 		</div>
 		<jsp:include page="./modal.jsp"/>

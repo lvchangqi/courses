@@ -1,5 +1,7 @@
 package com.qingtao.controller;
 
+import java.util.Random;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.qingtao.pojo.User;
 import com.qingtao.serviceI.UserServiceI;
+import com.qingtao.util.Mail;
 
 /**
  * @since 2016/5/10
@@ -72,6 +75,22 @@ public class UserController {
 		userService.insertSelective(user);
 		return "WEB-INF/goto";
 	}
+	
+	/**
+	 * 找回密码
+	 * @param studentid
+	 * @param inputpwd
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/found",method= RequestMethod.GET)
+	public String found(@RequestParam(value = "studentid", required = false) Long studentid,
+			@RequestParam(value = "inputpwd", required = false) String inputpwd) {
+		User user = new User(null,studentid);
+		user.setPassword(new Md5Hash(inputpwd, SALT).toString());
+		userService.updateSelective(user);
+		return "success";
+	}
 
 	/**
 	 * 修改密码
@@ -105,10 +124,17 @@ public class UserController {
 
 		return result;
 	}
-	
+
+	/**
+	 * 修改用户信息
+	 * 
+	 * @param user
+	 * @param map
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value="/update",method=RequestMethod.POST)
-	public String update(User user,ModelMap map){
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String update(User user, ModelMap map) {
 		userService.updateSelective(user);
 		map.addAttribute(user);
 		return "success";
@@ -167,6 +193,36 @@ public class UserController {
 		}
 
 		return resultStr;
+	}
+
+	/**
+	 * 发送邮件
+	 * 
+	 * @param username
+	 * @param studentid
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/mail", method = RequestMethod.GET)
+	public String forMail(@RequestParam("name") String username, @RequestParam("studentid") long studentid)
+			throws Exception {
+		User user = new User(username, studentid);
+		User cuser = userService.selectOneUser(user);
+		if (cuser == null) {
+			return "unmatch";
+		}
+		char[] ch = "abcdefghjkmnpqrstuvwxyz23456789".toCharArray(); // 随即产生的字符串
+		int length = ch.length; // 随即字符串的长度
+		String sRand = ""; // 保存随即产生的字符串
+		Random random = new Random();
+		for (int i = 0; i < 6; i++) {
+			String rand = new Character(ch[random.nextInt(length)]).toString();
+			sRand += rand;
+		}
+		Mail mail = new Mail("测试主题", "测试内容:" + sRand, cuser.getQq() + "@qq.com");
+		mail.sendMail();
+		return sRand;
 	}
 
 	/**

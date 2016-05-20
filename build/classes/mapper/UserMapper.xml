@@ -13,43 +13,52 @@
 		<result column="promiss" property="promiss" jdbcType="CHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, username, password, studentid, qq, phone, role, teacher, promiss
+		id, username, password, studentid, qq, phone, role,
+		teacher, promiss
 	</sql>
-	
+
 	<!-- 取出用户(检测用户名,) -->
-	<select id="selectOneUser" parameterType="com.qingtao.pojo.User" resultMap="BaseResultMap">
-		select 
-		<include refid="Base_Column_List"/>
-		from user 
-		<if test="username != null">
-			where username = #{username,jdbcType=VARCHAR}
-		</if>
-		<if test="studentid != null">
-			where studentid = #{studentid,jdbcType=VARCHAR}
-		</if>
+	<select id="selectOneUser" parameterType="com.qingtao.pojo.User"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		<choose>
+			<when test="username != null and studentid == null">
+				where username = #{username,jdbcType=VARCHAR}
+			</when>
+			<when test="studentid != null and username == null">
+				where studentid = #{studentid,jdbcType=BIGINT}
+			</when>
+			<otherwise>
+				where username = #{username,jdbcType=VARCHAR}
+				and
+				studentid = #{studentid,jdbcType=BIGINT}
+			</otherwise>
+		</choose>
 	</select>
-	
+
 	<!-- 更新信息 -->
 	<update id="updateSelective" parameterType="com.qingtao.pojo.User">
 		update user
-    <set >
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="qq != null" >
-        qq = #{qq,jdbcType=BIGINT},
-      </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=BIGINT},
-      </if>
-      <if test="teacher != null" >
-        teacher = #{teacher,jdbcType=VARCHAR},
-      </if>
-      <if test="promiss != null" >
-        promiss = #{promiss,jdbcType=CHAR},
-      </if>
-    </set>
-    where studentid = #{studentid,jdbcType=BIGINT}
+		<set>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="qq != null">
+				qq = #{qq,jdbcType=BIGINT},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=BIGINT},
+			</if>
+			<if test="teacher != null">
+				teacher = #{teacher,jdbcType=VARCHAR},
+			</if>
+			<if test="promiss != null">
+				promiss = #{promiss,jdbcType=CHAR},
+			</if>
+		</set>
+		where studentid = #{studentid,jdbcType=BIGINT}
 	</update>
 
 	<!-- 注册 -->

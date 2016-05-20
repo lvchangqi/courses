@@ -15,7 +15,7 @@ public class User {
 
     private String role;
     
-    private String teacher = "无";
+    private String teacher;
 
     private String promiss;
 
@@ -104,6 +104,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", studentid=" + studentid
-				+ ", qq=" + qq + ", phone=" + phone + ", role=" + role + ", promiss=" + promiss + "]";
+				+ ", qq=" + qq + ", phone=" + phone + ", role=" + role + ", teacher=" + teacher + ", promiss=" + promiss
+				+ "]";
 	}
 }

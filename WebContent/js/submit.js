@@ -10,7 +10,6 @@ $(function(){
 		$(".preloading").css("display", "none").next().css("display", "block");
 	})
 	changeWindow()
-	window.onresize = changeWindow()
 	/**样式调整**/
 	
 		var flag = new Array(false,false,false,false,false,false);//开关数组
@@ -21,11 +20,13 @@ $(function(){
 		var $qq = $("input[name='qq']")
 		var $tel = $("input[name='phone']")
 		var $check = $("input[name='role']")
+		var $promiss = $("input[name='promiss']")
 		
 	/**前端检测开始**/	
 	var regExp={
-		username: new RegExp('^[\u4e00-\u9fa5]{2,15}$'),
+		username: new RegExp('^[0-9_a-zA-Z]{6,20}$'),
 		password: new RegExp('^[0-9_a-zA-Z]{6,20}$'),
+		promiss: new RegExp('^[\u4e00-\u9fa5]{2,15}$'),
 		studentid1: new RegExp('^[0-9]{13}$'),
 		studentid2: new RegExp('^[0-9]{5}$'),
 		qq: new RegExp('^[0-9]{7,11}$'),
@@ -33,7 +34,6 @@ $(function(){
 	}
 	
 	/**用户名检测**/
-	errorShow($name,'请使用真实姓名')
 	$name.blur(function(){
 		if(regExp.username.test($(this).val())){
 			$.post(basePath+'/user/checkUser',{username:$(this).val()},function(data){
@@ -45,7 +45,7 @@ $(function(){
 				flag[0] = data
 			})
 		} else {
-			errorShow($(this),'用户名请使用真实姓名')
+			errorShow($(this),'用户名由6-10位由数字、大小写英文字母组成')
 			flag[0] = false
 		}
 	})
@@ -105,7 +105,7 @@ $(function(){
 	})
 	/**QQ检测**/
 	
-	/**QQ检测**/
+	/**手机检测**/
 	$tel.blur(function(){
 		if(regExp.phone.test($(this).val())){
 			$(this).tooltip('destroy')
@@ -115,13 +115,25 @@ $(function(){
 			flag[4] = false
 		}
 	})
-	/**QQ检测**/
+	/**手机检测**/
+	
+	/**真实姓名**/
+	$promiss.blur(function(){
+		if(regExp.promiss.test($(this).val())){
+			$(this).tooltip('destroy')
+			flag[6] = true
+		} else {
+			errorShow($(this),'请正确输入姓名')
+			flag[6] = false
+		}
+	})
+	/**真实姓名**/
 	
 	//向后台请求验证码
-	$('#change').click(function(){
+	$('#checkPic').click(function(){
 		$('img').attr("src", basePath + "/safecode/create_sc?K=" + Math.random());
 	});
-	$('#change').click();
+	$('#checkPic').click();
 	
 	document.getElementById('check').oninput=function(){
 		if(this.value.length==4)
@@ -145,8 +157,7 @@ $(function(){
 	//验证码结束
 	/**前端检测结束**/
 	function changeWindow(){
-		$('.main-banner').css('height', (window.innerHeight+window.innerHeight*8/100) + 'px');
-		$('.main-over').css('height', (window.innerHeight+window.innerHeight*8/100) + 'px');
+		$('.main-banner').css('height', $('form').height()*1.11);
 	}
 })
 function can(flag) {

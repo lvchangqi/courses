@@ -12,6 +12,15 @@
 		<link rel="stylesheet" href="css/style.css" />
 		<link rel="stylesheet" href="css/animation.css" />
 		<title>登录</title>
+		<style type="text/css">
+			div[role="alert"] {
+				position: absolute;
+				top: 30%;
+				left: 38%;
+				display: none;
+				z-index: 999;      
+			}
+		</style>
 	</head>
 
 	<body onkeypress="if(event.keyCode == 13) return false">
@@ -29,22 +38,25 @@
 				<div class="container">
 					<div class="collapse navbar-collapse" id="navbar-collapse">
 						<ul class="nav navbar-nav  navbar-right">
-							<li class="active"><a href="./login.jsp" role="login">登录</a></li>
+							<li><a href="./login.jsp" role="login">登录</a></li>
 							<li><a href="./submit.jsp" role="submit">注册</a></li>
-							<li><a href="./found.jsp" role="found">找回密码</a></li>
+							<li class="active"><a href="./found.jsp" role="found">找回密码</a></li>
 							<li><a href="tencent://message/?uin=675812074&Menu=yes" role="2" id="about">关于</a></li>
 						</ul>
 					</div>
 				</div>
 			</nav>
 			<!--头结束-->
-			
+		<div class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>恭喜您,密码找回成功!</strong> 正在为您跳转登录界面.
+		</div>
 			<div class="container">
 				<div class="row">
-					<form class="col-md-4 col-md-push-4" role="form" id="login">
+					<div class="col-md-4 col-md-push-4" role="form" id="login" style="margin-top: 5.1%;">
 						<div class="form-group text-center title">
 							<div class="preloading">
-								<span>登录</span>
+								<span>找回密码</span>
 							</div>
 							<div class="loading icon-spinner6"></div>
 						</div>
@@ -53,15 +65,23 @@
 							<input type="text" name="username" id="username" placeholder="用户名" required="required" class="form-control" />
 						</div>
 						<div class="form-group text-center">
-							<label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
-							<input type="password" name="password" id="password" placeholder="密码" required="required" class="form-control" />
+							<label for="studentid">学&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
+							<input type="text" name="studentid" id="studentid" placeholder="学号" required="required" class="form-control" />
+						</div>
+						<div class="form-group text-center">
+							<label for="password">新密码:</label>
+							<input type="password" name="password" id="password" placeholder="新密码" required="required" class="form-control" />
+						</div>
+						<div class="form-group text-center">
+							<label for="repassword">确认新密码:</label>
+							<input type="password" name="repassword" id="repassword" placeholder="确认新密码" required="required" class="form-control" />
 						</div>
 						<div class="form-group text-center" style="margin-bottom: 0;">
 							<label for="password">验证码:</label>
 						</div>
 						<div class="form-group form-inline" style="margin-top: 0;">
-							<input type="text" name="check" id="check" placeholder="验证码" required="required" class="form-control" style="width: 70%"/>
-							<img alt="验证码" src="" id="checkPic" height="34px" width="100px">
+							<input type="text" name="check" id="check" placeholder="邮箱中的验证码" required="required" class="form-control" style="width: 68%"/>
+							<button id="send" class="btn btn-default" disabled>发送验证码</button>
 						</div>
 
 						<div class=" btn-groups text-center">
@@ -70,34 +90,15 @@
 							</button>
 							<span class="icon-locked unbtn"></span>
 						</div>
-
-						<div class="form-group text-right" id="role">
-						<label>您的身份:</label>
-							<div class="radio-inline">
-								<label>
-							      <input type="radio" name="user" value="student" checked="checked">学生
-							    </label>
-							</div>
-							<div class="radio-inline">
-								<label>
-							      <input type="radio" name="user" value="teacher">老师
-							    </label>
-							</div>
-							<div class="radio-inline">
-								<label>
-							      <input type="radio" name="user" value="admin">管理员
-							    </label>
-							</div>
-						</div>
-					</form>
+					</div>
 				</div>
-				
 			</div>
 		</div>
 	</body>
 	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script src="js/login.js"></script>
+	<script type="text/javascript" src="js/commons/cookie.js" ></script>
+	<script type="text/javascript" src="js/found.js" ></script>
 	<script type="text/javascript">
 		var basePath = "${pageContext.request.contextPath}"
 	</script>
