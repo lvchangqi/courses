@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qingtao.dao.ImgMapper" >
+  <resultMap id="BaseResultMap" type="com.qingtao.pojo.Img" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="imgpath" property="imgpath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, username, imgpath
+  </sql>
+  
+  <!-- 查找头像 -->
+  <select id="select" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select 
+    <include refid="Base_Column_List" />
+    from img where username = #{username,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 上传头像  -->
+  <insert id="insert" parameterType="com.qingtao.pojo.Img" >
+    insert into img ( username, imgpath
+      )
+    values ( #{username,jdbcType=VARCHAR}, #{imgpath,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <!-- 更新头像 -->
+  <update id="update" parameterType="com.qingtao.pojo.Img" >
+    update img
+    set imgpath = #{imgpath,jdbcType=VARCHAR}
+    where username = #{username,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 查询列表 -->
+  <select id="selectRole" parameterType="java.lang.String" resultType="java.util.HashMap">
+  	SELECT * FROM img i, user u WHERE i.username = u.username AND u.role = #{role,jdbcType=VARCHAR} 
+  </select>
+</mapper>

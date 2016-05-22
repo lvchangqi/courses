@@ -1,6 +1,10 @@
 package com.qingtao.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -16,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.qingtao.pojo.Img;
 import com.qingtao.pojo.User;
+import com.qingtao.serviceI.ImgServiceI;
 import com.qingtao.serviceI.UserServiceI;
 import com.qingtao.util.Mail;
 
@@ -38,6 +45,9 @@ public class UserController {
 
 	@Autowired
 	private UserServiceI userService;
+
+	@Autowired
+	private ImgServiceI imgService;
 
 	/**
 	 * 用户输入检测
@@ -75,18 +85,19 @@ public class UserController {
 		userService.insertSelective(user);
 		return "WEB-INF/goto";
 	}
-	
+
 	/**
 	 * 找回密码
+	 * 
 	 * @param studentid
 	 * @param inputpwd
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/found",method= RequestMethod.GET)
+	@RequestMapping(value = "/found", method = RequestMethod.GET)
 	public String found(@RequestParam(value = "studentid", required = false) Long studentid,
 			@RequestParam(value = "inputpwd", required = false) String inputpwd) {
-		User user = new User(null,studentid);
+		User user = new User(null, studentid);
 		user.setPassword(new Md5Hash(inputpwd, SALT).toString());
 		userService.updateSelective(user);
 		return "success";
@@ -193,6 +204,61 @@ public class UserController {
 		}
 
 		return resultStr;
+	}
+
+	/**
+	 * 查询资源,头像
+	 * 
+	 * @param username
+	 * @param role
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/res", method = RequestMethod.GET)
+	public Object resouce(@RequestParam(value = "username", required = false) String username,
+			@RequestParam(value = "role", required = false) String role) {
+		
+		if(username != null){
+			return imgService.select(username);
+		} 
+		if (role != null){
+			return imgService.selectRole(role);
+		}
+		
+		return "error";
+	}
+
+	/**
+	 * 头像上传
+	 * 
+	 * @throws IOException
+	 * @throws IllegalStateException
+	 */
+	@RequestMapping(value = "/imgUp", method = RequestMethod.POST)
+	public String imgUpload(MultipartFile img, String imgName, String username, HttpServletRequest request)
+			throws IllegalStateException, IOException {
+		String path = request.getServletContext().getRealPath("/");
+
+		String netPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+				+ request.getContextPath() + "/images/";
+		String storePath = path + "/images/";
+
+		String fileType = img.getOriginalFilename().split("\\.")[1];
+		// 用户名.类型
+		String fileName = username + '.' + fileType;
+
+		// 文件信息存入数据库
+		if (imgService.select(username) != null) {
+			imgService.update(new Img(username, netPath + fileName));
+		} else {
+			imgService.insert(new Img(username, netPath + fileName));
+		}
+
+		// 文件永久化
+		File dir = new File(storePath, fileName);
+		img.transferTo(dir);
+
+		return "auth/control";
 	}
 
 	/**

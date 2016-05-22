@@ -16,8 +16,8 @@ public class User {
     private String role;
     
     private String teacher;
-
-    private String promiss;
+    
+	private String promiss;
 
     public String getTeacher() {
 		return teacher;

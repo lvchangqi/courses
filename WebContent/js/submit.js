@@ -9,7 +9,7 @@ $(function(){
 	$(".isbtn").click(function() {
 		$(".preloading").css("display", "none").next().css("display", "block");
 	})
-	changeWindow()
+	$('.main-banner').css('height', window.innerHeight);
 	/**样式调整**/
 	
 		var flag = new Array(false,false,false,false,false,false);//开关数组
@@ -156,9 +156,6 @@ $(function(){
 	};
 	//验证码结束
 	/**前端检测结束**/
-	function changeWindow(){
-		$('.main-banner').css('height', $('form').height()*1.11);
-	}
 })
 function can(flag) {
 	/**打开按钮**/

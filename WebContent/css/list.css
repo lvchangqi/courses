@@ -8,11 +8,12 @@
 }
 
 .left-header {
+	margin-top:5px;
 	background: url(../img/header-profile.png) no-repeat;
 	background-size: 100%;
 	height: 20%;
 	color: #DFE4ED;
-	font-size: 16px;
+	font-size: 14px;
 }
 
 .dropdown-toggle {
@@ -87,4 +88,21 @@
 }
 a:link{
 	text-decoration: none;
+}
+#face::before{
+	content: '';
+	line-height:70px;
+	font-size:12px;
+	color:#ffffff;
+	width: 70px;
+	height: 0;
+	background-color: rgba(0,0,0,.8);
+	position: absolute;
+	border-radius:70px 70px 70px 70px;
+	transition: 1.2s;
+}
+#face:hover::before{
+	content: '上传头像';
+	height: 70px;
+	transition: 1.2s;
 }

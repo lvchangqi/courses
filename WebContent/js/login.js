@@ -6,7 +6,7 @@ $(function(){
 	});
 	$('#checkPic').click();
 	
-	$('.main-banner').css('height', $('form').height()*1.521);
+	$('.main-banner').css('height', window.innerHeight);
 		var $name = $("input[name='username']")
 		var $pwd = $("input[name='password']")
 		var $check = $("input[name='check']")

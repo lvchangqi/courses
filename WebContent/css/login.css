@@ -1,8 +1,4 @@
-@media screen and (max-width: 910px){
-	#logo{
-		display: none;
-	}
-}
+
 .main-banner {
 	background: url(../img/banner.jpg);
 	background-size: 100% 100%;

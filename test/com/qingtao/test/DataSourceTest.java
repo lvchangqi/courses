@@ -1,6 +1,8 @@
 package com.qingtao.test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -9,6 +11,9 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qingtao.dao.ImgMapper;
 import com.qingtao.pojo.Design;
 import com.qingtao.pojo.User;
 import com.qingtao.serviceI.DesignServiceI;
@@ -45,6 +50,13 @@ public class DataSourceTest {
 		Map<String, String> map = new HashMap<>();
 		map.put("tname", "王老师");
 		System.out.println(ds.selectAll(map));
+	}
+	
+	@Test
+	public void seTest() throws JsonProcessingException{
+		ObjectMapper om =new ObjectMapper();
+		ImgMapper im = act.getBean(ImgMapper.class);
+		System.out.println(om.writeValueAsString(im.selectRole("teacher")));
 	}
 	
 	@Test

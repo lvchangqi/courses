@@ -25,31 +25,53 @@
 			+ '<strong>这是bug</strong>'
 			+ '<span class="caret"></span>'
 			+ '</a>'
-			+ '<time style="float: right"></time>'
+			+ '<button class="btn btn-default btn-sm" style="margin-left:40px">选择此课题</button>'
+			+ '<time style="float: right;line-height: 30px;"></time>'
 			+ '</h4>'
 			+ '</div>'
 			+ '<div id="" class="panel-collapse collapse">'
-			+ '<div class="panel-body">看到这个说明程序出bug了╮(╯▽╰)╭<a href="tencent://message/?uin=675812074&Menu=yes">点击这里联系我</a></div>'
+			+ '<div class="panel-body">看到这个说明程序出bug了╮(╯▽╰)╭<a href="tencent://message/?uin=675812074&Menu=yes">点这里联系我</a></div>'
 			+ '<hr/>'
 			+ '<h6 style="margin:-10px 0 10px 12px;">备注:<span class="other"></span></h6>'
 			+ '</div>' + '</div>' + '</div>'
 	$(function() {
+		var name = '${user.promiss}'
+		var realname = getUrlParam('realname')
+		if(realname){
+			name = decodeURI(realname)
+		}
 		
-		$.post(basePath +'/design/getAll',{tname:'${user.promiss}'},function(data){
-			for (var i = 0; i < data.length; i++) {
-				$(collapse).appendTo('body')
-			}
-			for (var i = 0; i < data.length; i++) {
-				var depend = "collapse" + i
-				$('a[data-toggle="collapse"]').eq(i).attr('href', '#' + depend)
-				$('strong').eq(i).text(data[i].title)
-				$('.collapse').eq(i).attr('id', depend)
-				$('.panel-body').eq(i).text(data[i].content)
-				$('.other').eq(i).text(data[i].other)
-				$('time').eq(i).text("发布时间: "+new Date(data[i].time).toLocaleDateString())
+		$.post(basePath +'/design/getAll',{tname:name},function(data){
+			if(data.length==0){
+				collapse = '<button class="btn btn-primary btn-block disabled" style="font-weight:700;font-size:17px;letter-spacing:0.3em;border-radius:0" disabled>暂无课题</button>'
+				$(collapse).appendTo('body').animate({
+					marginTop: '240px'
+				},1300)
+			}else{
+				for (var i = 0; i < data.length; i++) {
+					$(collapse).appendTo('body')
+					if(!realname){
+						$('button').remove()
+					}
+				}
+				for (var i = 0; i < data.length; i++) {
+					var depend = "collapse" + i
+					$('a[data-toggle="collapse"]').eq(i).attr('href', '#' + depend)
+					$('strong').eq(i).text(data[i].title)
+					$('.collapse').eq(i).attr('id', depend)
+					$('.panel-body').eq(i).text(data[i].content)
+					$('.other').eq(i).text(data[i].other)
+					$('time').eq(i).text("发布时间: "+new Date(data[i].time).toLocaleDateString())
+				}
 			}
 		})
 	})
+	//得到url传入参数
+function getUrlParam(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	var r = window.location.search.substr(1).match(reg);
+	if (r != null) return unescape(r[2]); return null;
+} 
 </script>
 </body>
 </html>

@@ -24,7 +24,7 @@
 				        <span class="icon-bar"></span>
 				        <span class="icon-bar"></span>
 				    </button>
-					<a href="./login.jsp" class="navbar-brand main-logo" style="color:#FFFFFF; margin-left: 47.5%; font-size: 30px;" id="logo">课程(毕业)设计网上自动双选系统</a>
+					<a href="./login.jsp" class="navbar-brand main-logo" style="color:#FFFFFF; font-size: 25px;" id="logo">课程(毕业)设计网上自动双选系统</a>
 				</div>
 				<div class="container">
 					<div class="collapse navbar-collapse" id="navbar-collapse">
@@ -49,11 +49,11 @@
 							<div class="loading icon-spinner6"></div>
 						</div>
 						<div class="form-group form-inline">
-							<label for="username">用&nbsp;户&nbsp;名:</label>
+							<label for="username">用&nbsp;&nbsp;户&nbsp;&nbsp;名:</label>
 							<input type="text" name="username" id="username" placeholder="用户名" required="required" class="form-control" style="width: 76%" />
 						</div>
 						<div class="form-group form-inline">
-							<label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
+							<label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
 							<input type="password" name="password" id="password" placeholder="密码" required="required" class="form-control" style="width: 76%"/>
 						</div>
 						<div class="form-group form-inline">
@@ -65,7 +65,7 @@
 							<input type="text" name="promiss" id="promiss" placeholder="真实姓名" required="required" class="form-control" style="width: 76%"/>
 						</div>
 						<div class="form-group form-inline">
-							<label for="study">学(工)号:</label>
+							<label for="study">学(工)号:&nbsp;</label>
 							<input type="text" name="studentid" id="study" placeholder="学号/工号" required="required" class="form-control" style="width: 76%" />
 						</div>
 						<div class="form-group form-inline">
@@ -79,7 +79,7 @@
 						
 						<div class="form-group form-inline">
 							<label for="check">验&nbsp;&nbsp;证&nbsp;&nbsp;码:</label>
-							<input type="text" name="check" id="check" placeholder="验证码" required="required" class="form-control" />
+							<input type="text" name="check" id="check" placeholder="验证码" required="required" class="form-control" style="width: 46%"/>
 							<img alt="验证码" src="" id="checkPic" height="34px" width="100px">
 						</div>
 

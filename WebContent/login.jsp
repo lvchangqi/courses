@@ -24,7 +24,7 @@
 				        <span class="icon-bar"></span>
 				        <span class="icon-bar"></span>
 				    </button>
-					<a href="./login.jsp" class="navbar-brand main-logo" style="color:#FFFFFF; margin-left: 47.5%; font-size: 30px;" id="logo">课程(毕业)设计网上自动双选系统</a>
+					<a href="./login.jsp" class="navbar-brand main-logo" style="color:#FFFFFF;  font-size: 25px;" id="logo">课程(毕业)设计网上自动双选系统</a>
 				</div>
 				<div class="container">
 					<div class="collapse navbar-collapse" id="navbar-collapse">

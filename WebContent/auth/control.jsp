@@ -37,7 +37,10 @@
 		<div class="main-container">
 			<div class="col-md-2 container-left">
 				<div class="text-center left-header">
-					<span style="display:block;padding-top: 30px;">欢迎你!</span>
+				<a href="#openModal" onclick="$('#openImgModal').click()" id="face">
+					<img alt="头像" src="holder.js/70x70" class="img-circle" width="70px" height="70px"/>
+				</a>
+					<span style="display:block;">欢迎你!</span>
 						<div class="dropdown-toggle down-btn">
 							<span>${user.promiss}(${user.role})</span>
 						</div>
@@ -45,7 +48,7 @@
 				<ul class="menu">
 				
 					<shiro:hasRole name="student">
-					<a href="#select" data-src="">
+					<a href="#select" data-src="./iframe/two.jsp">
 						<li class="open-menu"><span class="icon icon-clipboard2"></span>课题选择</li>
 					</a>
 					<a href="#upload">
@@ -56,13 +59,16 @@
 						<a href="#self" data-src="./iframe/t-two.jsp">
 							<li class="open-menu"><span class="icon icon-file-text2"></span>查看已发布课题</li>
 						</a>
+						<a href="#self" data-src="">
+							<li class="open-menu"><span class="icon icon-magnifier"></span>查看学生</li>
+						</a>
 						<a href="#self" data-src="./iframe/t-one.jsp">
 							<li class="open-menu"><span class="icon icon-edit"></span>发布课题</li>
 						</a>
 					</shiro:hasRole>
 					<shiro:hasAnyRoles name="student,teacher">
 						<a href="#self" data-src="./iframe/one.jsp">
-							<li class="open-menu"><span class="icon icon-user"></span>修改个人信息</li>
+							<li class="open-menu"><span class="icon icon-user2"></span>修改个人信息</li>
 						</a>
 					</shiro:hasAnyRoles>
 					<a href="#openModal" onclick="$('#openModal').click()">
@@ -75,8 +81,8 @@
 			</div>
 			<div class="col-md-10 container-right" style="padding: 0;">
 				<div style="width: 100%;border-bottom: 2px solid #2f4050;">
-					<div class="breadcrumb" style="height: 100%;padding-top: 20px;">
-					<div style="position: absolute; margin-left: 10%;top:0;font-size:15px;" class="text-primary" id="sound">
+					<div class="breadcrumb" style="height: 100%;padding-top: 23px;">
+					<div style="position: absolute; top:0;font-size:15px;" class="text-primary" id="sound">
 						<span class="icon-sound"></span>
 						<span style="font-size:13px">公告:  这是一则测试公告</span> 
 					</div>
@@ -97,5 +103,10 @@
 	<script type="text/javascript" src="../js/list.js"></script>
 	<script type="text/javascript">
 		var basePath ='${pageContext.request.contextPath}'
+			$.get(basePath+"/user/res",{username:'${user.username}'},function(data){
+				if(data){
+					$('#face > img').attr('src',data.imgpath)
+				}
+			})
 	</script>
 </html>

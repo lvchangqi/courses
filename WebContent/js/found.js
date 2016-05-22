@@ -1,5 +1,5 @@
 $(function() {
-	$('.main-banner').css('height', $('div[role="form"]').height() * 1.205);
+	$('.main-banner').css('height', window.innerHeight);
 	$('#about').tooltip({
 		'placement': 'bottom',
 		'container': 'body',
