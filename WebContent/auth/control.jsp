@@ -51,7 +51,7 @@
 					<a href="#select" data-src="./iframe/two.jsp">
 						<li class="open-menu"><span class="icon icon-clipboard2"></span>课题选择</li>
 					</a>
-					<a href="#upload">
+					<a href="#upload" data-src="./iframe/three.jsp">
 						<li class="open-menu"><span class="icon icon-clipboard3"></span>文档及源码上传</li>
 					</a>
 					</shiro:hasRole>

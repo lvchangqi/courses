@@ -27,6 +27,7 @@ import com.qingtao.pojo.User;
 import com.qingtao.serviceI.ImgServiceI;
 import com.qingtao.serviceI.UserServiceI;
 import com.qingtao.util.Mail;
+import com.qingtao.util.MailContent;
 
 /**
  * @since 2016/5/10
@@ -286,7 +287,7 @@ public class UserController {
 			String rand = new Character(ch[random.nextInt(length)]).toString();
 			sRand += rand;
 		}
-		Mail mail = new Mail("测试主题", "测试内容:" + sRand, cuser.getQq() + "@qq.com");
+		Mail mail = new Mail("找回密码", MailContent.getContent(sRand), cuser.getQq() + "@qq.com");
 		mail.sendMail();
 		return sRand;
 	}

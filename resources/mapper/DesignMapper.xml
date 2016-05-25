@@ -7,13 +7,14 @@
 		<result column="other" property="other" jdbcType="VARCHAR" />
 		<result column="tname" property="tname" jdbcType="VARCHAR" />
 		<result column="time" property="time" jdbcType="DATE" />
+		<result column="counter" property="counter" jdbcType="INTEGER" />
 	</resultMap>
 	<resultMap id="ResultMapWithBLOBs" type="com.qingtao.pojo.Design"
 		extends="BaseResultMap">
 		<result column="content" property="content" jdbcType="LONGVARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, title, other, tname, time
+		id, title, other, tname, time, counter
 	</sql>
 	<sql id="Blob_Column_List">
 		content
@@ -61,16 +62,28 @@
 			</if>
 		</trim>
 	</insert>
-	
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.lang.String">
+		delete from design
+		where title = #{title,jdbcType=VARCHAR}
+	</delete>
+
+	<!-- 学生选择课题之后,课题数量减一 -->
+	<update id="updateCounter" parameterType="java.lang.String">
+		update design set counter = counter-1 where title = #{title,jdbcType=VARCHAR}
+	</update>
+
 	<!-- 查询课题 -->
 	<select id="selectAll" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
-		select 
-		<include refid="Base_Column_List"/>,
-		<include refid="Blob_Column_List"/>
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
 		from design
 		<if test="tname != null">
 			where tname = '${tname}'
 		</if>
 	</select>
-	
+
 </mapper>

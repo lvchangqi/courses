@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.Before;
@@ -13,12 +14,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qingtao.dao.DesignMapper;
 import com.qingtao.dao.ImgMapper;
+import com.qingtao.dao.SDesignMapper;
 import com.qingtao.pojo.Design;
 import com.qingtao.pojo.User;
 import com.qingtao.serviceI.DesignServiceI;
 import com.qingtao.serviceI.UserServiceI;
 import com.qingtao.util.Mail;
+import com.qingtao.util.MailContent;
 
 @SuppressWarnings("all")
 public class DataSourceTest {
@@ -46,10 +50,8 @@ public class DataSourceTest {
 	
 	@Test
 	public void designTest(){
-		DesignServiceI ds = act.getBean(DesignServiceI.class);
-		Map<String, String> map = new HashMap<>();
-		map.put("tname", "王老师");
-		System.out.println(ds.selectAll(map));
+		DesignMapper dm = act.getBean(DesignMapper.class);
+		dm.updateCounter("测试标题");
 	}
 	
 	@Test
@@ -61,7 +63,14 @@ public class DataSourceTest {
 	
 	@Test
 	public void mailTest() throws Exception{
-		new Mail("xxx", "xxxx", "675812074@qq.com").sendMail();;
+		Mail mail = new Mail("找回密码", MailContent.getContent((int)(Math.random()*1000)+""), 675812074 + "@qq.com");
+		mail.sendMail();
+	}
+	
+	@Test
+	public void download(){
+		SDesignMapper sd = act.getBean(SDesignMapper.class);
+		System.out.println(sd.selectOne(new Long(2014116020312l)));
 	}
 
 }

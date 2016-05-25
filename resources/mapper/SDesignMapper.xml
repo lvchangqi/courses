@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qingtao.dao.SDesignMapper">
+	<resultMap id="BaseResultMap" type="com.qingtao.pojo.SDesign">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="filename" property="filename" jdbcType="VARCHAR" />
+		<result column="studentid" property="studentid" jdbcType="BIGINT" />
+		<result column="file" property="file" jdbcType="VARCHAR" />
+		<result column="agree" property="agree" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, title, filename ,studentid, file ,agree
+	</sql>
+
+	<!-- 插入 -->
+	<insert id="insertSelective" parameterType="com.qingtao.pojo.SDesign">
+		insert into sdesign
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="title != null">
+				title,
+			</if>
+			<if test="studentid != null">
+				studentid,
+			</if>
+			<if test="agree != null">
+				agree,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="studentid != null">
+				#{studentid,jdbcType=BIGINT},
+			</if>
+			<if test="agree != null">
+				#{agree,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 上传文件 -->
+	<update id="updateFile" parameterType="com.qingtao.pojo.SDesign">
+		update sdesign set file =
+		#{file,jdbcType=VARCHAR},filename=#{filename,jdbcType=VARCHAR}
+		where studentid = #{studentid,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 下载文件 -->
+	<select id="selectOne" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List"/>
+		from sdesign where studentid = #{studentid,jdbcType=BIGINT}		
+	</select>
+
+</mapper>
