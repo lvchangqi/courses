@@ -38,8 +38,7 @@ public class DataSourceTest {
 	@Test
 	public void test() {
 		UserServiceI userService = act.getBean(UserServiceI.class);
-		User user = new User();
-		System.out.println(userService.selectOneUser(new User(null, new Long(2014116020312l))));
+		System.out.println(userService.selectByTitle("室内定位技术研究"));;
 		
 	}
 	
@@ -51,7 +50,6 @@ public class DataSourceTest {
 	@Test
 	public void designTest(){
 		DesignMapper dm = act.getBean(DesignMapper.class);
-		dm.updateCounter("测试标题");
 	}
 	
 	@Test

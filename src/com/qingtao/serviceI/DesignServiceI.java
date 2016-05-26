@@ -58,5 +58,5 @@ public interface DesignServiceI {
 	 * 
 	 * @param title
 	 */
-	void updateCounter(String title);
+	void updateCounter(Map<String, String> map);
 }

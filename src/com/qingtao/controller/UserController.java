@@ -2,6 +2,8 @@ package com.qingtao.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -260,6 +262,20 @@ public class UserController {
 		img.transferTo(dir);
 
 		return "auth/control";
+	}
+	
+	/**
+	 * 查询选择课题用户并返回
+	 * @param title
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	@ResponseBody
+	@RequestMapping(value="/title", method=RequestMethod.GET)
+	public List<User> selectByTitle(@RequestParam("title") String title) throws UnsupportedEncodingException{
+		title = new String(title.getBytes("ISO-8859-1"), "UTF-8");
+		
+		return userService.selectByTitle(title);
 	}
 
 	/**

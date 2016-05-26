@@ -65,6 +65,12 @@ public class SDesign {
 		super();
 	}
 
+	public SDesign(Long studentid, String agree) {
+		super();
+		this.studentid = studentid;
+		this.agree = agree;
+	}
+
 	public SDesign(String filename, Long studentid, String file) {
 		super();
 		this.filename = filename;

@@ -1,5 +1,7 @@
 package com.qingtao.serviceI;
 
+import java.util.List;
+
 import com.qingtao.pojo.User;
 
 public interface UserServiceI {
@@ -21,4 +23,11 @@ public interface UserServiceI {
 	 * @param user
 	 */
 	public void updateSelective(User user);
+	
+	/**
+	 * 根据标题查询用户
+	 * @param title
+	 * @return
+	 */
+	public List<User> selectByTitle(String title);
 }

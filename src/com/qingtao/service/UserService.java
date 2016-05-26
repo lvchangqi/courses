@@ -1,5 +1,7 @@
 package com.qingtao.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,11 @@ public class UserService implements UserServiceI {
 	@Override
 	public void updateSelective(User user) {
 		userMapper.updateSelective(user);
+	}
+
+	@Override
+	public List<User> selectByTitle(String title) {
+		return userMapper.selectByTitle(title);
 	}
 
 }

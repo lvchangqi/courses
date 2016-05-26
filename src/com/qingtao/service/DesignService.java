@@ -42,8 +42,8 @@ public class DesignService implements DesignServiceI {
 	}
 
 	@Override
-	public void updateCounter(String title) {
-		designMapper.updateCounter(title);
+	public void updateCounter(Map<String, String> map) {
+		designMapper.updateCounter(map);
 	}
 
 	@Override

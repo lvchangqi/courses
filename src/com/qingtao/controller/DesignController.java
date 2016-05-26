@@ -73,8 +73,26 @@ public class DesignController {
 		SDesign sdesign = new SDesign();
 		sdesign.setTitle(title);
 		sdesign.setStudentid(studentid);
-		designService.insertSDesign(sdesign);
-		designService.updateCounter(title);
+		Map<String, String> map = new HashMap<>();
+		map.put("title", title);
+		map.put("counter", "-1");
+		
+		SDesign sd = designService.selectOne(studentid);
+		
+		/**
+		 * 选课,不存在时当前课题减一
+		 * 存在时,当前课题加一
+		 */
+		if(sd == null){
+			designService.insertSDesign(sdesign);
+		} else {
+			designService.updateFile(sdesign);
+			designService.updateCounter(map);
+			map.put("title", sd.getTitle());
+			map.put("counter", "+1");
+		}
+		
+		designService.updateCounter(map);
 		return "#upload";
 	}
 	
@@ -87,7 +105,6 @@ public class DesignController {
 	 * @return
 	 * @throws IOException 
 	 */
-	@ResponseBody
 	@RequestMapping(value="/updatefile", method=RequestMethod.POST)
 	public String updateFile(MultipartFile file,Long studentid,HttpSession session) throws IOException{
 		String path = session.getServletContext().getRealPath("/");
@@ -95,6 +112,7 @@ public class DesignController {
 		String fileName = file.getOriginalFilename();
 		
 		designService.updateFile(new SDesign(fileName, studentid, pathname+fileName));
+		designService.updateFile(new SDesign(studentid, "true"));
 		
 		File dir = new File(pathname, fileName);
 		if (!dir.exists()) {
@@ -102,7 +120,7 @@ public class DesignController {
 		}
 		file.transferTo(dir);
 		
-		return "update";
+		return "redirect:/auth/iframe/three.jsp";
 	}
 	
 	/**
@@ -128,6 +146,30 @@ public class DesignController {
 		headers.setContentDispositionFormData("attachment", new String(name.getBytes("UTF-8"), "iso-8859-1"));
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+	}
+	
+	/**
+	 * 查询已选课程
+	 * @param studentid
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/selectOne/{studentid}", method=RequestMethod.GET)
+	public Design selectOne(@PathVariable("studentid") Long studentid){
+		SDesign flag = designService.selectOne(studentid);
+		if(flag == null){
+			return null;
+		}else{
+			String title = flag.getTitle();
+			String agree = flag.getAgree();
+			
+			Map<String, String> map = new HashMap<>();
+			map.put("title", title);
+			
+			Design design = designService.selectAll(map).get(0);
+			design.setTname(agree);
+			return design;
+		}
 	}
 
 	/**

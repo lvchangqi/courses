@@ -10,7 +10,7 @@ public interface DesignMapper {
 	
 	List<Design> selectAll(Map<String, String> map);
 	
-	void updateCounter(String title);
+	void updateCounter(Map<String, String> map);
 	
 	void delete(String title);
 }

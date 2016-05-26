@@ -17,19 +17,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 	
-<div class="panel panel-success" style="margin-top: 20px;">
-  <div class="panel-heading">
-    <h3 class="panel-title">基于AT89芯片的距离可调报警系统</h3>
-  </div>
-  <div class="panel-body" style="padding: 40px">
-    	基于AT89芯片的距离可调报警系统<a href="${pageContext.request.contextPath}/design/download/2014116020312">下载</a>
-    	<hr>
-    	<span class="other">备注:可用于汽车倒车报警</span>
-  </div>
-  <div class="panel-footer ">
-  	<button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">文档及源码上传</button>
-  </div>
-</div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-sm">
@@ -53,6 +40,47 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 </body>
 <script type="text/javascript">
+	
+	$.get('${pageContext.request.contextPath}/design/selectOne/${user.studentid}',function(data){
+	
+		if(data) {
+			var panel =  '<div class="panel panel-success" style="margin-top: 20px;">'+
+			  '<div class="panel-heading">'+
+			    '<h3 class="panel-title">'+data.title+'</h3>'+
+			  '</div>'+
+			  '<div class="panel-body" style="padding: 40px">'+
+			    	'<span class="content">'+data.content+'</span>'+
+			    	'<hr>'+
+			    	'<span class="other">备注:'+data.other+'</span>'+
+			  '</div>'+
+			  '<div class="panel-footer ">'+
+			  	'<button class="btn btn-primary btn-block disabled" data-toggle="modal" data-target="#myModal">文档及源码上传</button>'+
+			  '</div>'+
+			'</div>'
+			
+			$(panel).appendTo('body')
+			
+			if(!data.tname){
+				$('.btn:last').tooltip({
+					'title' : '请等待老师审核,通过后方可上传',
+					'placement': 'bottom',
+					'container': 'body',
+					'trigger' : 'click'
+				})
+				$('.btn:last').tooltip('show')
+			}else if(data.tname == 'false'){
+				$('.btn:last').removeClass('disabled')
+			}else if(data.tname == 'true'){
+				$('.btn:last').text('文件已上传,请等待老师查看与反馈')
+			}
+		} else {
+			var collapse = '<button class="btn btn-primary btn-block disabled" style="font-weight:700;font-size:17px;letter-spacing:0.3em;border-radius:0" disabled>你还没有选择课题</button>'
+				$(collapse).appendTo('body').animate({
+					marginTop: '240px'
+				},1300)
+		}
+	})
+				
 	$('#file').change(function(){
 		var objUrl = '<%=basePath%>' + "img/yasuo.ico"
 		var type = $(this).val().split(".")

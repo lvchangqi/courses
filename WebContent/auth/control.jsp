@@ -59,7 +59,7 @@
 						<a href="#self" data-src="./iframe/t-two.jsp">
 							<li class="open-menu"><span class="icon icon-file-text2"></span>查看已发布课题</li>
 						</a>
-						<a href="#self" data-src="">
+						<a href="#self" data-src="./iframe/t-three.jsp">
 							<li class="open-menu"><span class="icon icon-magnifier"></span>查看学生</li>
 						</a>
 						<a href="#self" data-src="./iframe/t-one.jsp">
@@ -77,6 +77,10 @@
 					<a href="${pageContext.request.contextPath}/user/logout">
 						<li><span class="icon icon-switch2"></span>安全退出</li>
 					</a>
+					<div style="position: absolute; bottom: 10px; color:rgb(167, 177, 194);text-align: center; margin-left: 10px;">
+						Copyright&copy; 2016 <abbr title="吕长奇">AndiOS工作室</abbr> <br/>
+						All Right Reserved
+					</div>
 				</ul>
 			</div>
 			<div class="col-md-10 container-right" style="padding: 0;">

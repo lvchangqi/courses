@@ -33,7 +33,8 @@
 			<otherwise>
 				where username = #{username,jdbcType=VARCHAR}
 				and
-				studentid = #{studentid,jdbcType=BIGINT}
+				studentid
+				= #{studentid,jdbcType=BIGINT}
 			</otherwise>
 		</choose>
 	</select>
@@ -111,5 +112,13 @@
 			</if>
 		</trim>
 	</insert>
+
+	<!-- 联动查询学生信息 -->
+	<select id="selectByTitle" parameterType="java.lang.String"
+		resultType="com.qingtao.pojo.User">
+		SELECT promiss,u.studentid,qq,phone FROM user u,sdesign s
+		WHERE u.studentid = s.studentid AND s.title =
+		#{title.jdbcType=VARCHAR}
+	</select>
 
 </mapper>

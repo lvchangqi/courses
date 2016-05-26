@@ -42,16 +42,32 @@
 
 	<!-- 上传文件 -->
 	<update id="updateFile" parameterType="com.qingtao.pojo.SDesign">
-		update sdesign set file =
-		#{file,jdbcType=VARCHAR},filename=#{filename,jdbcType=VARCHAR}
+		update sdesign
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="filename != null">
+				filename = #{filename,jdbcType=VARCHAR},
+			</if>
+			<if test="studentid != null">
+				studentid = #{studentid,jdbcType=BIGINT},
+			</if>
+			<if test="file != null">
+				file = #{file,jdbcType=VARCHAR},
+			</if>
+			<if test="agree != null">
+				agree = #{agree,jdbcType=CHAR},
+			</if>
+		</set>
 		where studentid = #{studentid,jdbcType=BIGINT}
 	</update>
-	
+
 	<!-- 下载文件 -->
 	<select id="selectOne" parameterType="java.lang.Long" resultMap="BaseResultMap">
-		select 
-		<include refid="Base_Column_List"/>
-		from sdesign where studentid = #{studentid,jdbcType=BIGINT}		
+		select
+		<include refid="Base_Column_List" />
+		from sdesign where studentid = #{studentid,jdbcType=BIGINT}
 	</select>
 
 </mapper>

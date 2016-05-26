@@ -70,8 +70,19 @@
 	</delete>
 
 	<!-- 学生选择课题之后,课题数量减一 -->
-	<update id="updateCounter" parameterType="java.lang.String">
-		update design set counter = counter-1 where title = #{title,jdbcType=VARCHAR}
+	<update id="updateCounter" parameterType="java.util.Map">
+		update design set counter = 
+		
+		<choose>
+			<when test="counter == '+1'">
+				counter + 1
+			</when>
+			<when test="counter == '-1'">
+				counter - 1
+			</when>
+		</choose> 
+		
+		where title = '${title}'
 	</update>
 
 	<!-- 查询课题 -->
@@ -83,6 +94,9 @@
 		from design
 		<if test="tname != null">
 			where tname = '${tname}'
+		</if>
+		<if test="title != null">
+			where title like '%${title}%'
 		</if>
 	</select>
 
