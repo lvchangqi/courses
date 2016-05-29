@@ -44,7 +44,7 @@
 		var time = setInterval(function(){
 			document.getElementById('a').innerHTML = i--;
 			if(i==-1){
-				window.location.href = "../index.jsp";
+				window.location.href = "../login.jsp";
 				clearInterval(time);
 			}
 		},1000);

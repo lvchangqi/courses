@@ -14,9 +14,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.qingtao.dao.DesignMapper;
 import com.qingtao.dao.ImgMapper;
+import com.qingtao.dao.NoticeMapper;
 import com.qingtao.dao.SDesignMapper;
+import com.qingtao.dao.UserMapper;
 import com.qingtao.pojo.Design;
 import com.qingtao.pojo.User;
 import com.qingtao.serviceI.DesignServiceI;
@@ -38,37 +42,57 @@ public class DataSourceTest {
 	@Test
 	public void test() {
 		UserServiceI userService = act.getBean(UserServiceI.class);
-		System.out.println(userService.selectByTitle("室内定位技术研究"));;
-		
+		User user = new User();
+		user.setUsername("dsadas");
+		user.setPassword("dsaaaaaaaaaaaaaaaaaaaaa");
+		user.setStudentid(2131231231312l);
+		user.setQq(21312312312312l);
+		user.setPhone(1231231231231l);
+		user.setPromiss("超级管理员");
+		user.setRole("管理员");
+		userService.insertSelective(user);
+
 	}
-	
+
 	@Test
-	public void MD5Test(){
-		System.out.println("0a1ae6ac331001d701026132c2bcf790".length());
+	public void MD5Test() {
+		System.out.println(new Md5Hash("admin", "andios"));
 	}
-	
+
 	@Test
-	public void designTest(){
+	public void designTest() {
 		DesignMapper dm = act.getBean(DesignMapper.class);
 	}
-	
+
 	@Test
-	public void seTest() throws JsonProcessingException{
-		ObjectMapper om =new ObjectMapper();
+	public void seTest() throws JsonProcessingException {
+		ObjectMapper om = new ObjectMapper();
 		ImgMapper im = act.getBean(ImgMapper.class);
 		System.out.println(om.writeValueAsString(im.selectRole("teacher")));
 	}
-	
+
 	@Test
-	public void mailTest() throws Exception{
-		Mail mail = new Mail("找回密码", MailContent.getContent((int)(Math.random()*1000)+""), 675812074 + "@qq.com");
-		mail.sendMail();
+	public void mailTest() throws Exception {
+		Mail mail = new Mail("找回密码", MailContent.getContent((int) (Math.random() * 1000) + ""), 675812074 + "@qq.com");
+		Thread thread = new Thread(mail);
+		thread.start();
 	}
-	
+
 	@Test
-	public void download(){
+	public void download() {
 		SDesignMapper sd = act.getBean(SDesignMapper.class);
 		System.out.println(sd.selectOne(new Long(2014116020312l)));
 	}
 
+	@Test
+	public void noticeTest() {
+		NoticeMapper nm = act.getBean(NoticeMapper.class);
+		System.out.println(nm.select());
+	}
+
+	@Test
+	public void pagehelperTest() {
+		UserMapper um = act.getBean(UserMapper.class);
+		PageHelper.startPage(1, 2, true);
+	}
 }

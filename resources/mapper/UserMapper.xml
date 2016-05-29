@@ -10,7 +10,7 @@
 		<result column="phone" property="phone" jdbcType="BIGINT" />
 		<result column="role" property="role" jdbcType="VARCHAR" />
 		<result column="teacher" property="teacher" jdbcType="VARCHAR" />
-		<result column="promiss" property="promiss" jdbcType="CHAR" />
+		<result column="promiss" property="promiss" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, username, password, studentid, qq, phone, role,
@@ -56,7 +56,7 @@
 				teacher = #{teacher,jdbcType=VARCHAR},
 			</if>
 			<if test="promiss != null">
-				promiss = #{promiss,jdbcType=CHAR},
+				promiss = #{promiss,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where studentid = #{studentid,jdbcType=BIGINT}
@@ -108,17 +108,27 @@
 				#{role,jdbcType=VARCHAR},
 			</if>
 			<if test="promiss != null">
-				#{promiss,jdbcType=CHAR},
+				#{promiss,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
 
 	<!-- 联动查询学生信息 -->
 	<select id="selectByTitle" parameterType="java.lang.String"
-		resultType="com.qingtao.pojo.User">
-		SELECT promiss,u.studentid,qq,phone FROM user u,sdesign s
+		resultType="java.util.HashMap">
+		SELECT promiss,u.studentid,qq,phone,s.agree FROM user
+		u,sdesign s
 		WHERE u.studentid = s.studentid AND s.title =
 		#{title.jdbcType=VARCHAR}
 	</select>
 
+	<!-- 管理员查询 -->
+	<select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user 
+		<if test="role != null">
+			where role = '${role}'
+		</if>
+	</select>
 </mapper>

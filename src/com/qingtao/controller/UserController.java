@@ -3,7 +3,9 @@ package com.qingtao.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -261,7 +263,21 @@ public class UserController {
 		File dir = new File(storePath, fileName);
 		img.transferTo(dir);
 
-		return "auth/control";
+		return "redirect:/auth/control.jsp";
+	}
+	
+	/**
+	 * admin查询所有用户
+	 * @param role
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/selectAll",method=RequestMethod.GET)
+	public List<User> selectAll(@RequestParam("role") String role){
+		Map<String, String> map = new HashMap<>();
+		map.put("role", role);
+		
+		return userService.selectAll(map);
 	}
 	
 	/**
@@ -272,7 +288,7 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/title", method=RequestMethod.GET)
-	public List<User> selectByTitle(@RequestParam("title") String title) throws UnsupportedEncodingException{
+	public List<Map<String, String>> selectByTitle(@RequestParam("title") String title) throws UnsupportedEncodingException{
 		title = new String(title.getBytes("ISO-8859-1"), "UTF-8");
 		
 		return userService.selectByTitle(title);
@@ -304,7 +320,8 @@ public class UserController {
 			sRand += rand;
 		}
 		Mail mail = new Mail("找回密码", MailContent.getContent(sRand), cuser.getQq() + "@qq.com");
-		mail.sendMail();
+		new Thread(mail).start();
+		
 		return sRand;
 	}
 

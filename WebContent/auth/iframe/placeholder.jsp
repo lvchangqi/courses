@@ -7,19 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../../css/bootstrap.min.css" />
 	<link rel="stylesheet" href="../../css/public.css" />
-	<link rel="stylesheet" href="../../css/style.css" />
 <title>Document</title>
 </head>
-<body>
-	<img alt="占位符" src=""/>
+<body class="well" style="border-bottom: none;">
+	<div class="text-center" style="margin-top: 20%">
+		<span style="font-size: 43px;font-weight: 700;color:#666666;">欢迎使用,课程(毕业)设计网上自动双选系统</span>
+	</div>
 </body>
-	<script type="text/javascript" src="../../js/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-		var h = window.innerHeight
-		var w = window.innerWidth
-		var src = 'holder.js/' + w + 'x' + h
-		$('img').attr('src',src)
-	</script>
-	<script type="text/javascript" src="../../js/holder.min.js"></script>
 </html>

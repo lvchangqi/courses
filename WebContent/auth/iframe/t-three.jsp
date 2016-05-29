@@ -26,7 +26,7 @@
 			+ ' </div>'
 			+ '<div id="collapseOne" class="panel-collapse collapse">'
 			+ '<div class="panel-body">'
-			+ '<table class="table table-striped  table-condensed table-hover">'
+			+ '<table class="table table-condensed table-hover">'
 			+ '<thead>' + '<tr class="bg-success">' + '<th>姓名</th>'
 			+ '<th>学号</th>' + '<th>QQ号码</th>' + '<th>电话号码</th>' + '<th>课程设计下载</th>' 
 			+ '</tr>'
@@ -65,6 +65,9 @@
 							if(data.length > 0){
 								for(var i = 0;i<data.length;i++){
 									var download = '<a href="'+basePath+'/design/download/'+data[i].studentid+'" class="btn btn-xs btn-primary">下载</a>'
+									if(data[i].agree != "true"){
+										download = '暂未上传文件'
+									}
 									body.find('tbody').append('<tr><td>'+data[i].promiss+'</td><td>'+data[i].studentid+'</td><td>'+data[i].qq+'</td><td>'+data[i].phone+'</td><td>'+download+'</td></tr>')
 								}
 							} else {

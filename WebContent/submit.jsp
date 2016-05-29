@@ -41,7 +41,7 @@
 			
 			<div class="container">
 				<div class="row">
-					<form class="col-md-4 col-md-push-4" style="margin-top: 4.5%;" action="${pageContext.request.contextPath}/user/submit" method="post">
+					<form class="col-md-4 col-md-push-4" name="user" style="margin-top: 4.5%;" action="${pageContext.request.contextPath}/user/submit" method="POST">
 						<div class="form-group text-center title">
 							<div class="preloading">
 								<span>注册</span>

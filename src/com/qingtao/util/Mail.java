@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMessage;
  *
  */
 
-public class Mail {
+public class Mail implements Runnable{
 	private String subject;
 	private String content;
 	private String toAddress;
@@ -46,7 +46,7 @@ public class Mail {
 		this.toAddress = toAddress;
 	}
 
-	public void sendMail() throws Exception{
+	public void sendMail() throws Exception {
 		Properties pro = new Properties();
 		//协议服务商
 		pro.setProperty("mail.smtp", "smtp.sina.com.cn");
@@ -74,7 +74,7 @@ public class Mail {
 	 * @return
 	 * @throws Exception
 	 */
-	private MimeMessage createMail(Session session) throws Exception{
+	private synchronized MimeMessage createMail(Session session) throws Exception{
 		//邮件对象
 		MimeMessage mime = new MimeMessage(session);
 		//发件人
@@ -86,5 +86,14 @@ public class Mail {
 		//内容
 		mime.setContent(content, "text/html;charset=UTF-8");
 		return mime;
+	}
+
+	@Override
+	public void run() {
+		try {
+			this.sendMail();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

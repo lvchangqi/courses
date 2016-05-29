@@ -1,6 +1,7 @@
 package com.qingtao.serviceI;
 
 import java.util.List;
+import java.util.Map;
 
 import com.qingtao.pojo.User;
 
@@ -29,5 +30,12 @@ public interface UserServiceI {
 	 * @param title
 	 * @return
 	 */
-	public List<User> selectByTitle(String title);
+	public List<Map<String, String>> selectByTitle(String title);
+	
+	/**
+	 * 管理员查询用户
+	 * @param map
+	 * @return
+	 */
+	public List<User> selectAll(Map<String, String> map);
 }

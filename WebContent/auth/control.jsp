@@ -71,6 +71,14 @@
 							<li class="open-menu"><span class="icon icon-user2"></span>修改个人信息</li>
 						</a>
 					</shiro:hasAnyRoles>
+					<shiro:hasRole name="admin">
+					<a href="#notice" data-src="./iframe/a-two.jsp">
+							<li class="open-menu"><span class="icon icon-users"></span>用户管理</li>
+						</a>
+						<a href="#notice" data-src="./iframe/a-one.jsp">
+							<li class="open-menu"><span class="icon icon-sound"></span>发布公告</li>
+						</a>
+					</shiro:hasRole>
 					<a href="#openModal" onclick="$('#openModal').click()">
 						<li><span class="icon icon-locked"></span>修改密码</li>
 					</a>
@@ -86,9 +94,9 @@
 			<div class="col-md-10 container-right" style="padding: 0;">
 				<div style="width: 100%;border-bottom: 2px solid #2f4050;">
 					<div class="breadcrumb" style="height: 100%;padding-top: 23px;">
-					<div style="position: absolute; top:0;font-size:15px;" class="text-primary" id="sound">
+					<div style="position: absolute; top:0;font-size:15px;" class="text-danger" id="sound">
 						<span class="icon-sound"></span>
-						<span style="font-size:13px">公告:  这是一则测试公告</span> 
+						<span id="notice" style="font-size:13px">公告:&nbsp;&nbsp;暂无公告</span> 
 					</div>
 						<div class="btn btn-primary btn-dead btn-live ">
 							主页
@@ -106,11 +114,19 @@
 	</body>
 	<script type="text/javascript" src="../js/list.js"></script>
 	<script type="text/javascript">
+		notice()
 		var basePath ='${pageContext.request.contextPath}'
 			$.get(basePath+"/user/res",{username:'${user.username}'},function(data){
 				if(data){
 					$('#face > img').attr('src',data.imgpath)
 				}
 			})
+		function notice(){
+			$.post(basePath+"/admin/notice",function(data){
+				if(data != "notice"){
+					$('#notice').html("公告:     "+data.content+'<font color="gray">(公告发布时间:'+new Date(data.time).toLocaleString()+')</font>')
+				}
+			})
+		}	
 	</script>
 </html>

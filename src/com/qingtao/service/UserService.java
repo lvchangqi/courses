@@ -1,6 +1,7 @@
 package com.qingtao.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,13 @@ public class UserService implements UserServiceI {
 	}
 
 	@Override
-	public List<User> selectByTitle(String title) {
+	public List<Map<String, String>> selectByTitle(String title) {
 		return userMapper.selectByTitle(title);
+	}
+
+	@Override
+	public List<User> selectAll(Map<String, String> map) {
+		return userMapper.selectAll(map);
 	}
 
 }

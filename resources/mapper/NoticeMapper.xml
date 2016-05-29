@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qingtao.dao.NoticeMapper">
+	<resultMap id="BaseResultMap" type="com.qingtao.pojo.Notice">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="time" property="time" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, content, time
+	</sql>
+
+	<select id="select" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from notice order by id desc LIMIT 1
+	</select>
+
+	<insert id="insert" parameterType="java.lang.String">
+		insert into notice (content) values (
+		#{content,jdbcType=VARCHAR})
+	</insert>
+
+
+</mapper>
