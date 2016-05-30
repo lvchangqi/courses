@@ -25,7 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.qingtao.pojo.Design;
 import com.qingtao.pojo.SDesign;
+import com.qingtao.pojo.User;
 import com.qingtao.serviceI.DesignServiceI;
+import com.qingtao.serviceI.UserServiceI;
 
 @Controller
 @RequestMapping("/design")
@@ -33,6 +35,9 @@ public class DesignController {
 
 	@Autowired
 	private DesignServiceI designService;
+
+	@Autowired
+	private UserServiceI userService;
 
 	/**
 	 * 创建课题
@@ -73,17 +78,17 @@ public class DesignController {
 		SDesign sdesign = new SDesign();
 		sdesign.setTitle(title);
 		sdesign.setStudentid(studentid);
+		sdesign.setAgree("false");
 		Map<String, String> map = new HashMap<>();
 		map.put("title", title);
 		map.put("counter", "-1");
-		
+
 		SDesign sd = designService.selectOne(studentid);
-		
+
 		/**
-		 * 选课,不存在时当前课题减一
-		 * 存在时,当前课题加一
+		 * 选课,不存在时当前课题减一 存在时,当前课题加一
 		 */
-		if(sd == null){
+		if (sd == null) {
 			designService.insertSDesign(sdesign);
 		} else {
 			designService.updateFile(sdesign);
@@ -91,11 +96,11 @@ public class DesignController {
 			map.put("title", sd.getTitle());
 			map.put("counter", "+1");
 		}
-		
+
 		designService.updateCounter(map);
 		return "#upload";
 	}
-	
+
 	/**
 	 * 课程设计文件上传
 	 * 
@@ -103,26 +108,38 @@ public class DesignController {
 	 * @param studentid
 	 * @param session
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	@RequestMapping(value="/updatefile", method=RequestMethod.POST)
-	public String updateFile(MultipartFile file,Long studentid,HttpSession session) throws IOException{
+	@RequestMapping(value = "/updatefile", method = RequestMethod.POST)
+	public String updateFile(MultipartFile file, Long studentid, HttpSession session) throws IOException {
 		String path = session.getServletContext().getRealPath("/");
 		String pathname = path + "/WEB-INF/file/";
-		String fileName = file.getOriginalFilename();
-		
-		designService.updateFile(new SDesign(fileName, studentid, pathname+fileName));
+		String[] fileName = file.getOriginalFilename().split("\\.");
+		String name = fileName[fileName.length - 1];
+
+		String id = String.valueOf(studentid);
+		int four = Integer.parseInt(id.substring(0, 4)) + 4;
+		int b = Integer.parseInt(id.substring(4, 5));
+		String nc = id.substring(5, 7) + id.substring(9);
+		String up = "信息工程";
+		if (b == 3) {
+			up = "电子信息工程";
+		}
+		name = four + nc + "_" + up + "_" 
+				+ userService.selectOneUser(new User(null, studentid)).getPromiss() + "."+ name;
+
+		designService.updateFile(new SDesign(name, studentid, pathname + name));
 		designService.updateFile(new SDesign(studentid, "true"));
-		
-		File dir = new File(pathname, fileName);
+
+		File dir = new File(pathname, name);
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
 		file.transferTo(dir);
-		
+
 		return "redirect:/auth/iframe/three.jsp";
 	}
-	
+
 	/**
 	 * 文件下载
 	 * 
@@ -139,7 +156,7 @@ public class DesignController {
 		SDesign realFile = designService.selectOne(studentid);
 		String path = realFile.getFile();
 		String name = realFile.getFilename();
-		
+
 		File file = new File(path);
 
 		HttpHeaders headers = new HttpHeaders();
@@ -147,25 +164,26 @@ public class DesignController {
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
 	}
-	
+
 	/**
 	 * 查询已选课程
+	 * 
 	 * @param studentid
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/selectOne/{studentid}", method=RequestMethod.GET)
-	public Design selectOne(@PathVariable("studentid") Long studentid){
+	@RequestMapping(value = "/selectOne/{studentid}", method = RequestMethod.GET)
+	public Design selectOne(@PathVariable("studentid") Long studentid) {
 		SDesign flag = designService.selectOne(studentid);
-		if(flag == null){
+		if (flag == null) {
 			return null;
-		}else{
+		} else {
 			String title = flag.getTitle();
 			String agree = flag.getAgree();
-			
+
 			Map<String, String> map = new HashMap<>();
 			map.put("title", title);
-			
+
 			Design design = designService.selectAll(map).get(0);
 			design.setTname(agree);
 			return design;

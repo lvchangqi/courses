@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    '<h3 class="panel-title">'+data.title+'</h3>'+
 			  '</div>'+
 			  '<div class="panel-body" style="padding: 40px">'+
-			    	'<span class="content">'+data.content+'</span>'+
+			    	'<span class="content">说明:'+data.content+'</span>'+
 			    	'<hr>'+
 			    	'<span class="other">备注:'+data.other+'</span>'+
 			  '</div>'+

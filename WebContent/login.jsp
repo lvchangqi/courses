@@ -71,7 +71,7 @@
 							<span class="icon-locked unbtn"></span>
 						</div>
 
-						<div class="form-group text-right" id="role">
+						<div class="form-group text-center" id="role">
 						<label>您的身份:</label>
 							<div class="radio-inline">
 								<label>

@@ -41,4 +41,9 @@ public class UserService implements UserServiceI {
 		return userMapper.selectAll(map);
 	}
 
+	@Override
+	public void delete(String[] array) {
+		userMapper.delete(array);
+	}
+
 }

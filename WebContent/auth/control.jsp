@@ -40,7 +40,7 @@
 				<a href="#openModal" onclick="$('#openImgModal').click()" id="face">
 					<img alt="头像" src="holder.js/70x70" class="img-circle" width="70px" height="70px"/>
 				</a>
-					<span style="display:block;">欢迎你!</span>
+					<span style="display:block;">欢迎您!</span>
 						<div class="dropdown-toggle down-btn">
 							<span>${user.promiss}(${user.role})</span>
 						</div>
@@ -52,7 +52,7 @@
 						<li class="open-menu"><span class="icon icon-clipboard2"></span>课题选择</li>
 					</a>
 					<a href="#upload" data-src="./iframe/three.jsp">
-						<li class="open-menu"><span class="icon icon-clipboard3"></span>文档及源码上传</li>
+						<li class="open-menu"><span class="icon icon-clipboard3"></span>选题查看及提交</li>
 					</a>
 					</shiro:hasRole>
 					<shiro:hasRole name="teacher">
@@ -96,7 +96,7 @@
 					<div class="breadcrumb" style="height: 100%;padding-top: 23px;">
 					<div style="position: absolute; top:0;font-size:15px;" class="text-danger" id="sound">
 						<span class="icon-sound"></span>
-						<span id="notice" style="font-size:13px">公告:&nbsp;&nbsp;暂无公告</span> 
+						<span id="notice" style="font-size:13px">&nbsp;暂无公告</span> 
 					</div>
 						<div class="btn btn-primary btn-dead btn-live ">
 							主页
@@ -123,7 +123,7 @@
 			})
 		function notice(){
 			$.post(basePath+"/admin/notice",function(data){
-				if(data != "notice"){
+				if(data != "notice"&&data){
 					$('#notice').html("公告:     "+data.content+'<font color="gray">(公告发布时间:'+new Date(data.time).toLocaleString()+')</font>')
 				}
 			})

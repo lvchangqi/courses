@@ -38,4 +38,10 @@ public interface UserServiceI {
 	 * @return
 	 */
 	public List<User> selectAll(Map<String, String> map);
+	
+	/**
+	 * 删除用户
+	 * @param array
+	 */
+	public void delete(String[] array);
 }

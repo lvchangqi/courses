@@ -37,7 +37,7 @@
 				var name = '${user.promiss}'
 				$.post(basePath +'/design/getAll',{tname:name},function(data){
 					if(data.length==0){
-						collapse = '<button class="btn btn-primary btn-block disabled" style="font-weight:700;font-size:17px;letter-spacing:0.3em;border-radius:0" disabled>暂无课题</button>'
+						collapse = '<button class="btn btn-primary btn-block disabled" style="font-weight:700;font-size:17px;letter-spacing:0.3em;border-radius:0" disabled>暂无学生选择课题</button>'
 						$(collapse).appendTo('body').animate({
 							marginTop: '240px'
 						},1300)

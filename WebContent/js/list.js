@@ -49,7 +49,6 @@ $(function(){
 				$('.breadcrumb').find('.btn')[index+1].click()
 			}
 			$('#calendar,#sound').removeClass('btn-dead-style')
-			console.log(menu)
 		})
 		
 })

@@ -184,7 +184,7 @@ public class UserController {
 					subject.login(token);
 					switch (user.getRole()) {
 					case "student":
-						user.setRole("学生");
+						user.setRole("同学");
 						break;
 					case "teacher":
 						user.setRole("老师");
@@ -222,14 +222,14 @@ public class UserController {
 	@RequestMapping(value = "/res", method = RequestMethod.GET)
 	public Object resouce(@RequestParam(value = "username", required = false) String username,
 			@RequestParam(value = "role", required = false) String role) {
-		
-		if(username != null){
+
+		if (username != null) {
 			return imgService.select(username);
-		} 
-		if (role != null){
+		}
+		if (role != null) {
 			return imgService.selectRole(role);
 		}
-		
+
 		return "error";
 	}
 
@@ -265,32 +265,36 @@ public class UserController {
 
 		return "redirect:/auth/control.jsp";
 	}
-	
+
 	/**
 	 * admin查询所有用户
+	 * 
 	 * @param role
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/selectAll",method=RequestMethod.GET)
-	public List<User> selectAll(@RequestParam("role") String role){
+	@RequestMapping(value = "/selectAll", method = RequestMethod.GET)
+	public List<User> selectAll(@RequestParam("role") String role) {
 		Map<String, String> map = new HashMap<>();
 		map.put("role", role);
-		
+
 		return userService.selectAll(map);
 	}
-	
+
+
 	/**
 	 * 查询选择课题用户并返回
+	 * 
 	 * @param title
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
 	@ResponseBody
-	@RequestMapping(value="/title", method=RequestMethod.GET)
-	public List<Map<String, String>> selectByTitle(@RequestParam("title") String title) throws UnsupportedEncodingException{
+	@RequestMapping(value = "/title", method = RequestMethod.GET)
+	public List<Map<String, String>> selectByTitle(@RequestParam("title") String title)
+			throws UnsupportedEncodingException {
 		title = new String(title.getBytes("ISO-8859-1"), "UTF-8");
-		
+
 		return userService.selectByTitle(title);
 	}
 
@@ -321,7 +325,7 @@ public class UserController {
 		}
 		Mail mail = new Mail("找回密码", MailContent.getContent(sRand), cuser.getQq() + "@qq.com");
 		new Thread(mail).start();
-		
+
 		return sRand;
 	}
 

@@ -34,13 +34,13 @@
 	<body>
 		<div class="container">
 			<div class="container_font">
-				<span>恭喜您注册成功,<span id="a">5</span>秒后为您跳转到主页<span id="b"></span></span>
+				<span>恭喜您注册成功,<span id="a">3</span>秒后为您跳转到主页<span id="b"></span></span>
 			</div>
 			<a href="../login.jsp">若没有反应请点击这里...</a>
 		</div>
 	</body>
 	<script type="text/javascript">
-		var i = 4;
+		var i = 2;
 		var time = setInterval(function(){
 			document.getElementById('a').innerHTML = i--;
 			if(i==-1){

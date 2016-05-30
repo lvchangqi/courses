@@ -1,5 +1,6 @@
 package com.qingtao.test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,9 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,6 +27,7 @@ import com.qingtao.dao.UserMapper;
 import com.qingtao.pojo.Design;
 import com.qingtao.pojo.User;
 import com.qingtao.serviceI.DesignServiceI;
+import com.qingtao.serviceI.ImgServiceI;
 import com.qingtao.serviceI.UserServiceI;
 import com.qingtao.util.Mail;
 import com.qingtao.util.MailContent;
@@ -61,7 +65,8 @@ public class DataSourceTest {
 
 	@Test
 	public void designTest() {
-		DesignMapper dm = act.getBean(DesignMapper.class);
+		ImgServiceI i = act.getBean(ImgServiceI.class);
+		i.selectRole("teacher");
 	}
 
 	@Test
@@ -94,5 +99,14 @@ public class DataSourceTest {
 	public void pagehelperTest() {
 		UserMapper um = act.getBean(UserMapper.class);
 		PageHelper.startPage(1, 2, true);
+	}
+
+	@Test
+	public void JsonTest() throws IOException {
+		String a = "[\"12345\",\"12347\",\"17064\"]";
+		ObjectMapper om = new ObjectMapper();
+		String[] s = om.readValue(a, String[].class);
+		UserMapper um = act.getBean(UserMapper.class);
+		um.delete(s);
 	}
 }

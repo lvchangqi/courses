@@ -131,4 +131,11 @@
 			where role = '${role}'
 		</if>
 	</select>
+	
+	<delete id="delete">
+		delete from user where studentid in
+		<foreach collection="array" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>

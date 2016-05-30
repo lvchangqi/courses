@@ -17,4 +17,5 @@ public interface UserMapper {
 	
 	public List<User> selectAll(Map<String, String> map);
 	
+	public void delete(String[] array);
 }
