@@ -12,8 +12,18 @@ public class SDesign {
     private String file;
 
     private String agree;
+    
+    private String ctitle;
 
-    public Integer getId() {
+    public String getCtitle() {
+		return ctitle;
+	}
+
+	public void setCtitle(String ctitle) {
+		this.ctitle = ctitle;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -71,11 +81,12 @@ public class SDesign {
 		this.agree = agree;
 	}
 
-	public SDesign(String filename, Long studentid, String file) {
+	public SDesign(String filename, Long studentid, String file, String agree) {
 		super();
 		this.filename = filename;
 		this.studentid = studentid;
 		this.file = file;
+		this.agree = agree;
 	}
 
 	@Override

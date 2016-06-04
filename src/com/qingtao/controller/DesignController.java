@@ -78,7 +78,6 @@ public class DesignController {
 		SDesign sdesign = new SDesign();
 		sdesign.setTitle(title);
 		sdesign.setStudentid(studentid);
-		sdesign.setAgree("false");
 		Map<String, String> map = new HashMap<>();
 		map.put("title", title);
 		map.put("counter", "-1");
@@ -116,20 +115,27 @@ public class DesignController {
 		String pathname = path + "/WEB-INF/file/";
 		String[] fileName = file.getOriginalFilename().split("\\.");
 		String name = fileName[fileName.length - 1];
-
-		String id = String.valueOf(studentid);
-		int four = Integer.parseInt(id.substring(0, 4)) + 4;
-		int b = Integer.parseInt(id.substring(4, 5));
-		String nc = id.substring(5, 7) + id.substring(9);
-		String up = "信息工程";
-		if (b == 3) {
-			up = "电子信息工程";
+		
+		String redirect = null;
+		
+		if(name.equals("zip")||name.equals("rar")){
+			String id = String.valueOf(studentid);
+			int four = Integer.parseInt(id.substring(0, 4)) + 4;
+			int b = Integer.parseInt(id.substring(4, 5));
+			String nc = id.substring(5, 7) + id.substring(9);
+			String up = "信息工程";
+			if (b == 3) {
+				up = "电子信息工程";
+			}
+			name = four + nc + "_" + up + "_" + userService.selectOneUser(new User(null, studentid)).getPromiss() + "."
+					+ name;
+			redirect = "redirect:/auth/iframe/three.jsp";
+		} else if(name.equals("xls")){
+			name = studentid + "_" + userService.selectOneUser(new User(null, studentid)).getPromiss() + "." + name;
 		}
-		name = four + nc + "_" + up + "_" 
-				+ userService.selectOneUser(new User(null, studentid)).getPromiss() + "."+ name;
+		
 
-		designService.updateFile(new SDesign(name, studentid, pathname + name));
-		designService.updateFile(new SDesign(studentid, "true"));
+		designService.updateFile(new SDesign(name, studentid, pathname + name, "true"));
 
 		File dir = new File(pathname, name);
 		if (!dir.exists()) {
@@ -137,7 +143,7 @@ public class DesignController {
 		}
 		file.transferTo(dir);
 
-		return "redirect:/auth/iframe/three.jsp";
+		return redirect;
 	}
 
 	/**
@@ -164,6 +170,8 @@ public class DesignController {
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
 	}
+	
+	
 
 	/**
 	 * 查询已选课程
@@ -173,20 +181,26 @@ public class DesignController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/selectOne/{studentid}", method = RequestMethod.GET)
-	public Design selectOne(@PathVariable("studentid") Long studentid) {
+	public Map<String, Object> selectOne(@PathVariable("studentid") Long studentid) {
 		SDesign flag = designService.selectOne(studentid);
 		if (flag == null) {
 			return null;
 		} else {
 			String title = flag.getTitle();
 			String agree = flag.getAgree();
+			String ctitle = flag.getCtitle();
 
 			Map<String, String> map = new HashMap<>();
 			map.put("title", title);
 
 			Design design = designService.selectAll(map).get(0);
 			design.setTname(agree);
-			return design;
+			
+			Map<String, Object> resultMap = new HashMap<>();
+			resultMap.put("obj", design);
+			resultMap.put("ctitle", ctitle);
+			
+			return resultMap;
 		}
 	}
 
@@ -198,10 +212,26 @@ public class DesignController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@ResponseBody
-	@RequestMapping(value = "delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public String delete(@RequestParam("title") String title) throws UnsupportedEncodingException {
 		title = new String(title.getBytes("ISO-8859-1"), "UTF-8");
 		designService.delete(title);
 		return "delete";
+	}
+
+	/**
+	 * 修改课题
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/ctitle", method = RequestMethod.POST)
+	public String updateTitle(@RequestParam("studentid") Long studentid, @RequestParam("ctitle") String ctitle) {
+		SDesign sd = new SDesign();
+		sd.setStudentid(studentid);
+		sd.setCtitle(ctitle);
+		sd.setAgree("false");
+		designService.updateFile(sd);
+		return "ctitle";
 	}
 }

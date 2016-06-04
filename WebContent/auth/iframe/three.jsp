@@ -44,14 +44,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$.get('${pageContext.request.contextPath}/design/selectOne/${user.studentid}',function(data){
 	
 		if(data) {
+			var obj =data.obj
 			var panel =  '<div class="panel panel-success" style="margin-top: 20px;">'+
 			  '<div class="panel-heading">'+
-			    '<h3 class="panel-title">'+data.title+'</h3>'+
+			    '<h3 class="panel-title">'+obj.title+
+			    '&nbsp;&nbsp;&nbsp;'+
+			    '<button class="btn btn-default btn-ct">修改课题名</button>'+
+			    '</h3>'+
 			  '</div>'+
 			  '<div class="panel-body" style="padding: 40px">'+
-			    	'<span class="content">说明:'+data.content+'</span>'+
+			    	'<span class="content">说明:'+obj.content+'</span>'+
 			    	'<hr>'+
-			    	'<span class="other">备注:'+data.other+'</span>'+
+			    	'<span class="other">备注:'+obj.other+'</span>'+
 			  '</div>'+
 			  '<div class="panel-footer ">'+
 			  	'<button class="btn btn-primary btn-block disabled" data-toggle="modal" data-target="#myModal">文档及源码上传</button>'+
@@ -60,17 +64,49 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			$(panel).appendTo('body')
 			
-			if(!data.tname){
+			var title = $('.panel-title').html();
+			$(document).on('click','.btn-ct',function(){
+				var replace = '<div class="form-inline"><input name="ctitle" type="text" placeholder="课题名只能修改一次,请慎重填写" class="form-control" style="width:300px;"/>'
+					+'<button class="btn btn-primary btn-ok">确认</button>'
+					+'<button class="btn btn-default btn-cancel">取消</button></div>'
+				
+				$('.panel-title').html(replace)
+			})
+			$('body').on('click','.btn-ok',function(){
+				if($('input[name="ctitle"]').val()){
+					$.post('${pageContext.request.contextPath}/design/ctitle',{studentid:'${user.studentid}',ctitle:$('input[name="ctitle"]').val()},function(data){
+						window.location.reload(true)
+					})
+				} else {
+					$('input[name="ctitle"]').tooltip({
+						'title' : '请输入修改的课题名',
+						'placement': 'bottom',
+						'container': 'body',
+						'trigger' : 'click'
+					})
+					$('input[name="ctitle"]').tooltip('show')
+				}
+			})
+			$('body').on('click','.btn-cancel',function(){
+				$('.panel-title').html(title)
+			})
+			
+			
+			if(data.ctitle){
+				$('.panel-title').text(data.ctitle)
+			}
+			
+			if(!obj.tname){
 				$('.btn:last').tooltip({
-					'title' : '请等待老师审核,通过后方可上传',
+					'title' : '请修改课题名,修改后方可上传',
 					'placement': 'bottom',
 					'container': 'body',
 					'trigger' : 'click'
 				})
 				$('.btn:last').tooltip('show')
-			}else if(data.tname == 'false'){
+			}else if(obj.tname == 'false'){
 				$('.btn:last').removeClass('disabled')
-			}else if(data.tname == 'true'){
+			}else if(obj.tname == 'true'){
 				$('.btn:last').text('文件已上传,请等待老师查看与反馈')
 			}
 		} else {

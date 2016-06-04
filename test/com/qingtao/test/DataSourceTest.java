@@ -1,5 +1,7 @@
 package com.qingtao.test;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,11 +23,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qingtao.dao.DesignMapper;
+import com.qingtao.dao.ExcelMapper;
 import com.qingtao.dao.ImgMapper;
 import com.qingtao.dao.NoticeMapper;
 import com.qingtao.dao.SDesignMapper;
 import com.qingtao.dao.UserMapper;
 import com.qingtao.pojo.Design;
+import com.qingtao.pojo.Excel;
 import com.qingtao.pojo.User;
 import com.qingtao.serviceI.DesignServiceI;
 import com.qingtao.serviceI.ImgServiceI;
@@ -45,22 +50,20 @@ public class DataSourceTest {
 
 	@Test
 	public void test() {
-		UserServiceI userService = act.getBean(UserServiceI.class);
-		User user = new User();
-		user.setUsername("dsadas");
-		user.setPassword("dsaaaaaaaaaaaaaaaaaaaaa");
-		user.setStudentid(2131231231312l);
-		user.setQq(21312312312312l);
-		user.setPhone(1231231231231l);
-		user.setPromiss("超级管理员");
-		user.setRole("管理员");
-		userService.insertSelective(user);
-
+		ExcelMapper em = act.getBean(ExcelMapper.class);
+		System.out.println(em.excel(em.excelsup(17061l)));
 	}
 
 	@Test
-	public void MD5Test() {
-		System.out.println(new Md5Hash("admin", "andios"));
+	public void MD5Test() throws IOException {
+		Long workid = 123123124l;
+		String name ="严焰";
+		File file = new File("E:\\" + workid + "_" + name + ".xls");
+		if(!file.exists()){
+			HSSFWorkbook workbook = new HSSFWorkbook();
+			workbook.createSheet();
+			workbook.write(new FileOutputStream(file));
+		}
 	}
 
 	@Test
@@ -90,9 +93,10 @@ public class DataSourceTest {
 	}
 
 	@Test
-	public void noticeTest() {
-		NoticeMapper nm = act.getBean(NoticeMapper.class);
-		System.out.println(nm.select());
+	public void Test() {
+		ExcelMapper excelMapper = act.getBean(ExcelMapper.class);
+		List<Excel> list = excelMapper.excel(excelMapper.excelsup(17061l));
+		System.out.println(list);
 	}
 
 	@Test
@@ -103,10 +107,18 @@ public class DataSourceTest {
 
 	@Test
 	public void JsonTest() throws IOException {
-		String a = "[\"12345\",\"12347\",\"17064\"]";
 		ObjectMapper om = new ObjectMapper();
-		String[] s = om.readValue(a, String[].class);
-		UserMapper um = act.getBean(UserMapper.class);
-		um.delete(s);
+		User user = new User();
+		user.setUsername("dsadas");
+		user.setPassword("dsaaaaaaaaaaaaaaaaaaaaa");
+		user.setStudentid(2131231231312l);
+		user.setQq(21312312312312l);
+		user.setPhone(1231231231231l);
+		user.setPromiss("超级管理员");
+		user.setRole("管理员");
+		Map<String ,Object> m = new HashMap<>();
+		m.put("obj", user);
+		m.put("ctitle", "哈哈哈");
+		System.out.println(om.writeValueAsString(m));
 	}
 }

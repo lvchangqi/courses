@@ -86,7 +86,7 @@
 						<li><span class="icon icon-switch2"></span>安全退出</li>
 					</a>
 					<div style="position: absolute; bottom: 10px; color:rgb(167, 177, 194);text-align: center; margin-left: 10px;">
-						Copyright&copy; 2016 <abbr title="吕长奇">AndiOS工作室</abbr> <br/>
+						Copyright&copy;2016 <abbr title="吕长奇">AndiOS工作室</abbr> <br/>
 						All Right Reserved
 					</div>
 				</ul>

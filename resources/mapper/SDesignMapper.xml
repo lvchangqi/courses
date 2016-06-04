@@ -8,9 +8,10 @@
 		<result column="studentid" property="studentid" jdbcType="BIGINT" />
 		<result column="file" property="file" jdbcType="VARCHAR" />
 		<result column="agree" property="agree" jdbcType="CHAR" />
+		<result column="ctitle" property="ctitle" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, title, filename ,studentid, file ,agree
+		id, title, filename ,studentid, file ,agree ,ctitle
 	</sql>
 
 	<!-- 插入 -->
@@ -58,6 +59,9 @@
 			</if>
 			<if test="agree != null">
 				agree = #{agree,jdbcType=CHAR},
+			</if>
+			<if test="ctitle != null">
+				ctitle = #{ctitle,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where studentid = #{studentid,jdbcType=BIGINT}
