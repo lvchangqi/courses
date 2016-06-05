@@ -42,21 +42,12 @@
 </body>
 <script type="text/javascript">
 	var basePath = '${pageContext.request.contextPath}'
-	var collapse = '<div class="panel panel-default panel-info">'
-			+ '<div class="panel-heading">'
-			+ '<h4 class="panel-title">'
-			+ '<a data-toggle="collapse" href="#collapseOne"><strong></strong><span class="caret"></span></a>'
-			+ '</h4>'
-			+ ' </div>'
-			+ '<div id="collapseOne" class="panel-collapse collapse">'
-			+ '<div class="panel-body">'
-			+ '<table class="table table-condensed table-hover">'
+	var collapse =  '<table class="table table-condensed table-hover">'
 			+ '<thead>' + '<tr class="bg-success">' + '<th>姓名</th>'
 			+ '<th>学号</th>' +'<th>学院名称</th>' + '<th>专业名称</th>'+'<th>班级</th>'
 			+ '<th>修改后的标题</th>' + '<th>QQ号码</th>' + '<th>电话号码</th>' + '<th>课程设计下载</th>' 
 			+ '</tr>'
-			+ '</thead>' + '<tbody></tbody>' + '</table>' + '</div>' + '</div>'
-			+ '</div>'
+			+ '</thead>' + '<tbody></tbody>' + '</table>' 
 	
 			$(function() {
 				var name = '${user.promiss}'
@@ -67,40 +58,24 @@
 							marginTop: '240px'
 						},1300)
 					}else{
-						for (var i = 0; i < data.length; i++) {
-							$(collapse).prependTo('body')
-						}
-						for (var i = 0; i < data.length; i++) {
-							var depend = "collapse" + i
-							$('a[data-toggle="collapse"]').eq(i).attr('href', '#' + depend)
-							$('strong').eq(i).html(data[i].title+'<small>(已有'+(8-data[i].counter)+'人选择)</small>')
-							$('.collapse').eq(i).attr('id', depend)
-						}
+						$(collapse).prependTo('body')
 					}
 				})
 				
-				$('body').on('click','a',function(){
-					var body = $(this).parent().parent().siblings('.collapse')
-					var open = body.hasClass('in')
-					var title = $(this).text().split('(')[0]
 					
-					if(!open){
-						$.post(basePath+'/user/title',{title:title},function(data){
-							body.find('tbody').children().remove()
-							if(data.length > 0){
+						$.post(basePath+'/user/title',{tname:'${user.promiss}'},function(data){
+							if(data.length != 0){
 								for(var i = 0;i<data.length;i++){
 									var download = '<a href="'+basePath+'/design/download/'+data[i].studentid+'" class="btn btn-xs btn-primary">下载</a>'
 									if(data[i].agree != "true"){
 										download = '暂未上传文件'
 									}
-									body.find('tbody').append('<tr><td>'+data[i].promiss+'</td><td>'+data[i].studentid+'</td><td>'+data[i].college+'</td><td>'+data[i].major+'</td><td>'+data[i].classes+'</td><td>'+data[i].ctitle+'</td><td>'+data[i].qq+'</td><td>'+data[i].phone+'</td><td>'+download+'</td></tr>')
+									$('tbody').append('<tr><td>'+data[i].promiss+'</td><td>'+data[i].studentid+'</td><td>'+data[i].college+'</td><td>'+data[i].major+'</td><td>'+data[i].classes+'</td><td>'+data[i].ctitle+'</td><td>'+data[i].qq+'</td><td>'+data[i].phone+'</td><td>'+download+'</td></tr>')
 								}
 							} else {
-								body.find('tbody').append('<tr><td colspan="5" class="text-center">暂时无人选择此课题</td><tr>')
+								$('tbody').append('<tr><td colspan="9" class="text-center">暂时无人选择您的课题</td><tr>')
 							}
 						})
-					}
-				})
 				
 				$('.btn-export').click(function(){
 					$.get(basePath+"/admin/export/${user.studentid}")

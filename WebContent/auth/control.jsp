@@ -27,6 +27,7 @@
 		<link rel="stylesheet" href="../css/public.css" />
 		<link rel="stylesheet" href="../css/style.css" />
 		<link rel="stylesheet" href="../css/list.css" />
+		<link rel="icon" href="../img/console.ico" type="image/x-icon" />
 		<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="../js/holder.min.js"></script>
@@ -48,6 +49,7 @@
 				<ul class="menu">
 				
 					<shiro:hasRole name="student">
+					<button data-toggle="modal" data-target=".bs" id="gg" style="display: none;"></button>
 					<a href="#select" data-src="./iframe/two.jsp">
 						<li class="open-menu"><span class="icon icon-clipboard2"></span>课题选择</li>
 					</a>
@@ -59,11 +61,14 @@
 						<a href="#self" data-src="./iframe/t-two.jsp">
 							<li class="open-menu"><span class="icon icon-file-text2"></span>查看已发布课题</li>
 						</a>
-						<a href="#self" data-src="./iframe/t-three.jsp">
+						<a href="#self" data-src="./iframe/t-three-i.jsp">
 							<li class="open-menu"><span class="icon icon-magnifier"></span>查看学生</li>
 						</a>
 						<a href="#self" data-src="./iframe/t-one.jsp">
 							<li class="open-menu"><span class="icon icon-edit"></span>发布课题</li>
+						</a>
+						<a href="#notice" data-src="./iframe/t-four.jsp">
+							<li class="open-menu"><span class="icon icon-sound"></span>发布公告</li>
 						</a>
 					</shiro:hasRole>
 					<shiro:hasAnyRoles name="student,teacher">
@@ -72,7 +77,7 @@
 						</a>
 					</shiro:hasAnyRoles>
 					<shiro:hasRole name="admin">
-					<a href="#notice" data-src="./iframe/a-two.jsp">
+						<a href="#notice" data-src="./iframe/a-two.jsp">
 							<li class="open-menu"><span class="icon icon-users"></span>用户管理</li>
 						</a>
 						<a href="#notice" data-src="./iframe/a-one.jsp">
@@ -114,6 +119,10 @@
 	</body>
 	<script type="text/javascript" src="../js/list.js"></script>
 	<script type="text/javascript">
+		var shiro = '${user.role}'
+		if(shiro == '同学'){
+			$('#gg').click()
+		}
 		notice()
 		var basePath ='${pageContext.request.contextPath}'
 			$.get(basePath+"/user/res",{username:'${user.username}'},function(data){
@@ -121,12 +130,18 @@
 					$('#face > img').attr('src',data.imgpath)
 				}
 			})
+			$.post(basePath+"/admin/notice",{name:'${user.tname}'},function(data){
+				$('#t-content').text(data.content)
+				$('#t-time').text(new Date(data.time).toLocaleString())
+			})
 		function notice(){
-			$.post(basePath+"/admin/notice",function(data){
+			$.post(basePath+"/admin/notice",{name:'管理员'},function(data){
 				if(data != "notice"&&data){
 					$('#notice').html("公告:     "+data.content+'<font color="gray">(公告发布时间:'+new Date(data.time).toLocaleString()+')</font>')
 				}
 			})
-		}	
+		}
+		
+		console.log("%c有些样式我实在懒的写了,你要是看这觉得不爽的话可以联系我,我把源码给你,你来改","font-size:21px;color:gray;")
 	</script>
 </html>

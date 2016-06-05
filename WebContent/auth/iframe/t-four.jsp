@@ -34,7 +34,6 @@
 				name : '${user.promiss}'
 			}, function(data) {
 				if (data) {
-					parent.notice()
 					alert("公告发布成功")
 				}
 			})

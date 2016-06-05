@@ -87,7 +87,7 @@
 		//==选择==//
 		$(document).on('click','.btn-choose',function(){
 			var title = $(this).siblings('a').find('strong').text().split('(')[0]
-			$.post(basePath+"/design/select",{title: title,studentid: '${user.studentid}'},function(data){
+			$.post(basePath+"/design/select",{title: title,studentid: '${user.studentid}',tname:name},function(data){
 				if(data){
 					$('.alert').css('display','block').animate({
 						top: '30%'

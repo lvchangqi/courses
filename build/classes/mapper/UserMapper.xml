@@ -11,10 +11,11 @@
 		<result column="role" property="role" jdbcType="VARCHAR" />
 		<result column="teacher" property="teacher" jdbcType="VARCHAR" />
 		<result column="promiss" property="promiss" jdbcType="VARCHAR" />
+		<result column="tname" property="tname" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, username, password, studentid, qq, phone, role,
-		teacher, promiss
+		teacher, promiss, tname
 	</sql>
 
 	<!-- 取出用户(检测用户名,) -->
@@ -57,6 +58,9 @@
 			</if>
 			<if test="promiss != null">
 				promiss = #{promiss,jdbcType=VARCHAR},
+			</if>
+			<if test="tname != null">
+				tname = #{tname,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where studentid = #{studentid,jdbcType=BIGINT}
@@ -116,10 +120,10 @@
 	<!-- 联动查询学生信息 -->
 	<select id="selectByTitle" parameterType="java.lang.String"
 		resultType="java.util.HashMap">
-		SELECT promiss,u.studentid,qq,phone,s.agree FROM user
+		SELECT promiss,u.studentid,qq,phone,s.agree,s.ctitle FROM user
 		u,sdesign s
-		WHERE u.studentid = s.studentid AND s.title =
-		#{title.jdbcType=VARCHAR}
+		WHERE u.studentid = s.studentid AND s.tname =
+		#{tname.jdbcType=VARCHAR}
 	</select>
 
 	<!-- 管理员查询 -->

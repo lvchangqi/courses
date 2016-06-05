@@ -3,22 +3,25 @@
 <mapper namespace="com.qingtao.dao.NoticeMapper">
 	<resultMap id="BaseResultMap" type="com.qingtao.pojo.Notice">
 		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
 		<result column="time" property="time" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, content, time
+		name ,content, time
 	</sql>
 
-	<select id="select" resultMap="BaseResultMap">
+	<select id="select" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
-		from notice order by id desc LIMIT 1
+		from notice where
+		name = #{name, jdbcType=VARCHAR}
+		order by id desc LIMIT 1
 	</select>
 
-	<insert id="insert" parameterType="java.lang.String">
-		insert into notice (content) values (
-		#{content,jdbcType=VARCHAR})
+	<insert id="insert" parameterType="java.util.Map">
+		insert into notice (name ,content) values (
+		'${name}','${content}')
 	</insert>
 
 

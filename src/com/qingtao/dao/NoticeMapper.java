@@ -1,11 +1,13 @@
 package com.qingtao.dao;
 
+import java.util.Map;
+
 import com.qingtao.pojo.Notice;
 
 public interface NoticeMapper {
 
-	void insert(String content);
+	void insert(Map<String ,String> map);
 	
-	Notice select();
+	Notice select(String name);
 	
 }

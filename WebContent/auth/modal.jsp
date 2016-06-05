@@ -83,6 +83,20 @@
   </div>
 </div>
 <!-- 上传图片 -->
+<!-- 公告 -->
+<div class="modal fade bs" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" style="padding: 10px 20px">
+    <button type="button" class="close" data-dismiss="modal" ><span aria-hidden="true">&times;</span></button>
+      <span style="font-size:17px;">公告</span>
+      <hr style="margin-top: 5px;">
+      <span id="t-content"></span>
+      <hr style="margin-bottom: 5px;">
+      <time id="t-time" style="color: gray;"></time>
+    </div>
+  </div>
+</div>
+<!-- 公告 -->
 	</body>
 <script type="text/javascript">
 $('input[type="reset"]').click(function(){

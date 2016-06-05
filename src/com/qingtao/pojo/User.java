@@ -18,8 +18,18 @@ public class User {
     private String teacher;
     
 	private String promiss;
+	
+	private String tname;
 
-    public String getTeacher() {
+    public String getTname() {
+		return tname;
+	}
+
+	public void setTname(String tname) {
+		this.tname = tname;
+	}
+
+	public String getTeacher() {
 		return teacher;
 	}
 
@@ -105,6 +115,6 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", studentid=" + studentid
 				+ ", qq=" + qq + ", phone=" + phone + ", role=" + role + ", teacher=" + teacher + ", promiss=" + promiss
-				+ "]";
+				+ ", tname=" + tname + "]";
 	}
 }

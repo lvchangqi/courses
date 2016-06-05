@@ -3,7 +3,9 @@ package com.qingtao.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -290,12 +292,30 @@ public class UserController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/title", method = RequestMethod.GET)
-	public List<Map<String, String>> selectByTitle(@RequestParam("title") String title)
+	@RequestMapping(value = "/title", method = RequestMethod.POST)
+	public List<Map<String, String>> selectByTitle(@RequestParam("tname") String tname)
 			throws UnsupportedEncodingException {
-		title = new String(title.getBytes("ISO-8859-1"), "UTF-8");
-
-		return userService.selectByTitle(title);
+		List<Map<String ,String>> list = userService.selectByTitle(tname);
+		String major = "信息工程";
+		String college = "教育信息与技术学院";
+		List<Map<String ,String>> resultList = new ArrayList<>();
+		
+		Iterator<Map<String ,String>> it = list.iterator();
+		while(it.hasNext()){
+			Map<String, String> map = it.next();
+			String id = String.valueOf(map.get("studentid"));
+			int classes = Integer.parseInt(id.substring(2, 4) + id.substring(9, 11));
+			if (Integer.parseInt(id.substring(4, 5)) == 3) {
+				major = "电子信息工程";
+				college = "文理学院";
+			}
+			map.put("major", major);
+			map.put("classes",String.valueOf(classes));
+			map.put("college", college);
+			resultList.add(map);
+		}
+		
+		return resultList;
 	}
 
 	/**

@@ -9,9 +9,10 @@
 		<result column="file" property="file" jdbcType="VARCHAR" />
 		<result column="agree" property="agree" jdbcType="CHAR" />
 		<result column="ctitle" property="ctitle" jdbcType="VARCHAR" />
+		<result column="tname" property="tname" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, title, filename ,studentid, file ,agree ,ctitle
+		id, title, filename ,studentid, file ,agree ,ctitle ,tname
 	</sql>
 
 	<!-- 插入 -->
@@ -27,6 +28,9 @@
 			<if test="agree != null">
 				agree,
 			</if>
+			<if test="tname != null">
+				tname,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="title != null">
@@ -37,6 +41,9 @@
 			</if>
 			<if test="agree != null">
 				#{agree,jdbcType=CHAR},
+			</if>
+			<if test="tname != null">
+				#{tname,jdbcType=CHAR},
 			</if>
 		</trim>
 	</insert>
@@ -62,6 +69,9 @@
 			</if>
 			<if test="ctitle != null">
 				ctitle = #{ctitle,jdbcType=VARCHAR},
+			</if>
+			<if test="tname != null">
+				tname = #{tname,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where studentid = #{studentid,jdbcType=BIGINT}

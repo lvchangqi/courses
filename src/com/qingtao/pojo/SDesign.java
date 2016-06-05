@@ -14,8 +14,18 @@ public class SDesign {
     private String agree;
     
     private String ctitle;
+    
+    private String tname;
 
-    public String getCtitle() {
+    public String getTname() {
+		return tname;
+	}
+
+	public void setTname(String tname) {
+		this.tname = tname;
+	}
+
+	public String getCtitle() {
 		return ctitle;
 	}
 

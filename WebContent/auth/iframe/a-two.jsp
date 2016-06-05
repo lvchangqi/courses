@@ -17,6 +17,26 @@
 	#all{
 		padding: 7px;
 	}
+	.over{
+		height: 100%;
+		width: 100%;
+		background-color: rgba(0,0,0,.5);
+		position: absolute;
+		top:0;
+		left: 0;
+		display: none;
+	}
+	.over .content{
+		width: 200px;
+		height: 70px;
+		margin: 10% auto;
+		background-color: #ffffff;
+		padding-right: 10px;
+	}
+	.over .content select{
+		width: 100px;
+		margin: 30px 10px 30px 20px;
+	}
 </style>
 </head>
 <body>
@@ -34,23 +54,62 @@
 				<th>学号/工号</th>
 				<th>QQ号码</th>
 				<th>电话号码</th>
+				<th id="student">指导老师</th>
+				<th id="teacher">下载表格</th>
 				<th>删除用户</th>
 			</tr>
 		</thead>
 		<tbody></tbody>
 	</table>
+	<div class="over">
+		<div class="content">
+			<span style="float: right; font-size: 18px; cursor: pointer;">&times;</span>
+			<select name="changeT"></select>
+			<button class="btn btn-primary btn-xs btn-t">确认</button>
+		</div>
+	</div>
 </body>
 <script type="text/javascript">
 	var basePath = '${pageContext.request.contextPath}'
 	$(function() {
+		var sid = ''
+		$('.over .content span').click(function(){
+			$('.over').css('display','none')
+		})
+		$('tbody').on('click','.btn-t',function(){
+			sid = $(this).parents().siblings('th').eq(3).text()
+			$('.over').css('display','block')
+			$.getJSON(basePath+'/user/selectAll',{role:'teacher'},function(data){
+				if(data)
+					for(var i =0;i<data.length;i++){
+						$('<option value="'+data[i].promiss+'">'+data[i].promiss+'</option>').appendTo('select')
+					}
+			})
+		})
+		$('.over .content button').click(function(){
+			$.post(basePath+'/admin/changeT',{tname:$('select').val(),studentid:sid},function(data){
+				window.location.reload(true)
+			})
+		})
+		
+		//==遮罩层==//
 		var role = 'student'
 		getUsers(role)
-						
+		$('#student').css('display','block')
+		$('#teacher').css('display','none')
+		
 		$('.btn-switch').click(function(){
 			$(this).addClass('active').siblings().removeClass('active')
 			$('tbody').children().remove()
 			role = $(this).attr('role')
 			getUsers(role)
+			if(role =='student'){
+				$('#teacher').css('display','none')
+				$('#student').css('display','block')
+			} else {
+				$('#teacher').css('display','block')
+				$('#student').css('display','none')
+			}
 		})
 		
 		$('body').on('click','.btn-deleteAll,.btn-delete',function(){
@@ -84,9 +143,20 @@
 			$.get(basePath+'/user/selectAll',{role:role},function(data){
 				for(var i=0;i<data.length;i++){
 					var btn = '<button class="btn btn-danger btn-xs btn-delete" data-id="'+data[i].studentid+'">删除</button>'
-					
+					var down = '<a href="'+basePath+'/design/download/'+data[i].studentid+'" class="btn btn-xs btn-primary">下载</a>'
+					var t = '<th>'+down+'</th>'
+					if(role =='student'){
+						if(data[i].tname){
+							t = '<th><button class="btn btn-default btn-xs btn-t">'+data[i].tname+'</button></th>'
+						} else {
+							t = '<th>无</th>'
+						}
+						
+					} else if(!data[i].teacher){
+						t = '<th>还未上传</th>'
+					}
 					var row = '<tr>'+ '<th><input type="checkbox" name="users" value="'+data[i].studentid+'"/></th>' + '<th>'+data[i].username+'</th>' + '<th>'+data[i].promiss+'</th>' + '<th>'+data[i].studentid+'</th>'
-					+ '<th>'+data[i].qq+'</th>' + '<th>'+data[i].phone+'</th>' + '<th>'+btn+'</th>' + '</tr>'
+					+ '<th>'+data[i].qq+'</th>' + '<th>'+data[i].phone+'</th>' + t + '<th>'+btn+'</th>' + '</tr>'
 					
 					$('tbody').append(row)
 				}

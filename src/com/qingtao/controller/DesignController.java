@@ -74,10 +74,11 @@ public class DesignController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/select", method = RequestMethod.POST)
-	public String select(@RequestParam("title") String title, @RequestParam("studentid") Long studentid) {
+	public String select(@RequestParam("title") String title, @RequestParam("studentid") Long studentid,@RequestParam("tname") String tname) {
 		SDesign sdesign = new SDesign();
 		sdesign.setTitle(title);
 		sdesign.setStudentid(studentid);
+		sdesign.setTname(tname);
 		Map<String, String> map = new HashMap<>();
 		map.put("title", title);
 		map.put("counter", "-1");
@@ -97,6 +98,10 @@ public class DesignController {
 		}
 
 		designService.updateCounter(map);
+		
+		User u = new User(null, studentid);
+		u.setTname(tname);
+		userService.updateSelective(u);
 		return "#upload";
 	}
 
@@ -131,7 +136,13 @@ public class DesignController {
 					+ name;
 			redirect = "redirect:/auth/iframe/three.jsp";
 		} else if(name.equals("xls")){
+			User user = new User(null, studentid);
+			user.setTeacher("upload");
+			userService.updateSelective(user);
+			
+			designService.insertSDesign((new SDesign(studentid, "true")));
 			name = studentid + "_" + userService.selectOneUser(new User(null, studentid)).getPromiss() + "." + name;
+			redirect = "redirect:/auth/iframe/t-three.jsp";
 		}
 		
 

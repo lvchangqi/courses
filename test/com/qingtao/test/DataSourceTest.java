@@ -68,8 +68,10 @@ public class DataSourceTest {
 
 	@Test
 	public void designTest() {
-		ImgServiceI i = act.getBean(ImgServiceI.class);
-		i.selectRole("teacher");
+		UserServiceI us = act.getBean(UserServiceI.class);
+		Map<String ,String> m = new HashMap<>();
+		m.put("role", "student");
+		System.out.println(us.selectAll(m));
 	}
 
 	@Test

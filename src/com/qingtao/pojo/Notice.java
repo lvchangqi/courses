@@ -4,12 +4,22 @@ import java.util.Date;
 
 public class Notice {
     private Integer id;
+    
+    private String name;
 
     private String content;
 
     private Date time;
 
-    public Integer getId() {
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getId() {
         return id;
     }
 
