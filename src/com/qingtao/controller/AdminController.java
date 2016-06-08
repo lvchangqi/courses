@@ -135,7 +135,7 @@ public class AdminController {
 			}
 			e.setClasses(Integer.parseInt(id.substring(2, 4) + id.substring(9, 11)));
 		}
-		File file = new File("E:\\" + workid + "_" + name + ".xls");
+		File file = new File("C:\\" + workid + "_" + name + ".xls");
 		if (!file.exists()) {
 			HSSFWorkbook workbook = new HSSFWorkbook();
 			workbook.createSheet("Sheet1");

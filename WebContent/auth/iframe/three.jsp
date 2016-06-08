@@ -38,11 +38,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
   </div>
 </div>
+	<div class="col-md-12 text-center btn-div" style="display: none;">
+		<a class="btn btn-info" href="${pageContext.request.contextPath}/design/download/0">模版下载</a>
+	</div>
 </body>
 <script type="text/javascript">
 	
 	$.get('${pageContext.request.contextPath}/design/selectOne/${user.studentid}',function(data){
-	
 		if(data) {
 			var obj =data.obj
 			var panel =  '<div class="panel panel-success" style="margin-top: 20px;">'+
@@ -62,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  '</div>'+
 			'</div>'
 			
-			$(panel).appendTo('body')
+			$(panel).prependTo('body')
 			
 			var title = $('.panel-title').html();
 			$(document).on('click','.btn-ct',function(){
@@ -97,18 +99,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 			
 			if(!obj.tname){
-				$('.btn:last').tooltip({
+				$('button:last').tooltip({
 					'title' : '请修改课题名,修改后方可上传',
 					'placement': 'bottom',
 					'container': 'body',
 					'trigger' : 'click'
 				})
-				$('.btn:last').tooltip('show')
+				$('button:last').tooltip('show')
 			}else if(obj.tname == 'false'){
-				$('.btn:last').removeClass('disabled')
+				$('button:last').removeClass('disabled')
 			}else if(obj.tname == 'true'){
-				$('.btn:last').text('文件已上传,请等待老师查看与反馈')
+				$('button:last').text('文件已上传,请等待老师查看与反馈')
 			}
+			
+			$.get('${pageContext.request.contextPath}/user/forUser',{studentid:0},function(data){
+				if(!data.teacher){
+					$('.btn-div').css('display','block')
+					$('a').tooltip({
+						'title' : '请等待管理员上传模版',
+						'placement': 'bottom',
+						'trigger':'hover',
+					})
+					$('a').tooltip('show')
+					$('a').addClass('disabled')
+				}
+			})
 		} else {
 			var collapse = '<button class="btn btn-primary btn-block disabled" style="font-weight:700;font-size:17px;letter-spacing:0.3em;border-radius:0" disabled>你还没有选择课题</button>'
 				$(collapse).appendTo('body').animate({

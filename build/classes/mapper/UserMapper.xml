@@ -12,10 +12,11 @@
 		<result column="teacher" property="teacher" jdbcType="VARCHAR" />
 		<result column="promiss" property="promiss" jdbcType="VARCHAR" />
 		<result column="tname" property="tname" jdbcType="VARCHAR" />
+		<result column="hasUp" property="hasUp" jdbcType="CHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, username, password, studentid, qq, phone, role,
-		teacher, promiss, tname
+		teacher, promiss, tname, hasUp
 	</sql>
 
 	<!-- 取出用户(检测用户名,) -->
@@ -61,6 +62,9 @@
 			</if>
 			<if test="tname != null">
 				tname = #{tname,jdbcType=VARCHAR},
+			</if>
+			<if test="hasUp != null">
+				hasUp = #{hasUp,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where studentid = #{studentid,jdbcType=BIGINT}

@@ -74,7 +74,8 @@ public class DesignController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/select", method = RequestMethod.POST)
-	public String select(@RequestParam("title") String title, @RequestParam("studentid") Long studentid,@RequestParam("tname") String tname) {
+	public String select(@RequestParam("title") String title, @RequestParam("studentid") Long studentid,
+			@RequestParam("tname") String tname) {
 		SDesign sdesign = new SDesign();
 		sdesign.setTitle(title);
 		sdesign.setStudentid(studentid);
@@ -98,7 +99,7 @@ public class DesignController {
 		}
 
 		designService.updateCounter(map);
-		
+
 		User u = new User(null, studentid);
 		u.setTname(tname);
 		userService.updateSelective(u);
@@ -120,31 +121,45 @@ public class DesignController {
 		String pathname = path + "/WEB-INF/file/";
 		String[] fileName = file.getOriginalFilename().split("\\.");
 		String name = fileName[fileName.length - 1];
-		
+
 		String redirect = null;
-		
-		if(name.equals("zip")||name.equals("rar")){
-			String id = String.valueOf(studentid);
-			int four = Integer.parseInt(id.substring(0, 4)) + 4;
-			int b = Integer.parseInt(id.substring(4, 5));
-			String nc = id.substring(5, 7) + id.substring(9);
-			String up = "信息工程";
-			if (b == 3) {
-				up = "电子信息工程";
+
+		if (studentid != 0) {
+			if (name.equals("zip") || name.equals("rar")) {
+				String id = String.valueOf(studentid);
+				int four = Integer.parseInt(id.substring(0, 4)) + 4;
+				int b = Integer.parseInt(id.substring(4, 5));
+				String nc = id.substring(5, 7) + id.substring(9);
+				String up = "信息工程";
+				if (b == 3) {
+					up = "电子信息工程";
+				}
+				name = four + nc + "_" + up + "_" + userService.selectOneUser(new User(null, studentid)).getPromiss()
+						+ "." + name;
+
+				User user = new User(null, studentid);
+				user.setHasUp("true");
+				userService.updateSelective(user);
+
+				redirect = "redirect:/auth/iframe/three.jsp";
+			} else if (name.equals("xls")) {
+				User user = new User(null, studentid);
+				user.setTeacher("upload");
+				userService.updateSelective(user);
+
+				designService.insertSDesign((new SDesign(studentid, "true")));
+				name = studentid + "_" + userService.selectOneUser(new User(null, studentid)).getPromiss() + "." + name;
+				redirect = "redirect:/auth/iframe/t-three.jsp";
 			}
-			name = four + nc + "_" + up + "_" + userService.selectOneUser(new User(null, studentid)).getPromiss() + "."
-					+ name;
-			redirect = "redirect:/auth/iframe/three.jsp";
-		} else if(name.equals("xls")){
+		} else if (studentid == 0) {
 			User user = new User(null, studentid);
 			user.setTeacher("upload");
 			userService.updateSelective(user);
-			
+
 			designService.insertSDesign((new SDesign(studentid, "true")));
-			name = studentid + "_" + userService.selectOneUser(new User(null, studentid)).getPromiss() + "." + name;
-			redirect = "redirect:/auth/iframe/t-three.jsp";
+			name = "模板文件" + "." + name;
+			redirect = "redirect:/auth/iframe/a-one.jsp";
 		}
-		
 
 		designService.updateFile(new SDesign(name, studentid, pathname + name, "true"));
 
@@ -181,8 +196,6 @@ public class DesignController {
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
 	}
-	
-	
 
 	/**
 	 * 查询已选课程
@@ -206,11 +219,11 @@ public class DesignController {
 
 			Design design = designService.selectAll(map).get(0);
 			design.setTname(agree);
-			
+
 			Map<String, Object> resultMap = new HashMap<>();
 			resultMap.put("obj", design);
 			resultMap.put("ctitle", ctitle);
-			
+
 			return resultMap;
 		}
 	}

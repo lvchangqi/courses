@@ -62,13 +62,15 @@
 					}
 				})
 				
-					
 						$.post(basePath+'/user/title',{tname:'${user.promiss}'},function(data){
 							if(data.length != 0){
 								for(var i = 0;i<data.length;i++){
 									var download = '<a href="'+basePath+'/design/download/'+data[i].studentid+'" class="btn btn-xs btn-primary">下载</a>'
 									if(data[i].agree != "true"){
 										download = '暂未上传文件'
+									}
+									if(!data[i].ctitle){
+										data[i].ctitle = '未修改'
 									}
 									$('tbody').append('<tr><td>'+data[i].promiss+'</td><td>'+data[i].studentid+'</td><td>'+data[i].college+'</td><td>'+data[i].major+'</td><td>'+data[i].classes+'</td><td>'+data[i].ctitle+'</td><td>'+data[i].qq+'</td><td>'+data[i].phone+'</td><td>'+download+'</td></tr>')
 								}
@@ -79,7 +81,7 @@
 				
 				$('.btn-export').click(function(){
 					$.get(basePath+"/admin/export/${user.studentid}")
-					alert("表格已经导入您E盘的根目录")
+					alert("表格已经导入您C盘的根目录")
 				})
 				
 				$('#file').change(function(){

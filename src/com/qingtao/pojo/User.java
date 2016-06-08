@@ -20,8 +20,18 @@ public class User {
 	private String promiss;
 	
 	private String tname;
+	
+	private String hasUp;
 
-    public String getTname() {
+    public String getHasUp() {
+		return hasUp;
+	}
+
+	public void setHasUp(String hasUp) {
+		this.hasUp = hasUp;
+	}
+
+	public String getTname() {
 		return tname;
 	}
 

@@ -77,11 +77,16 @@
 	
 	<error-page>
 		<error-code>404</error-code>
-		<location>/commons/404.jsp</location>
+		<location>/auth/iframe/two/404.html</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/auth/iframe/two/404.html</location>
 	</error-page>
 
 	<session-config>
-		<session-timeout>30</session-timeout>
+		<session-timeout>15</session-timeout>
 	</session-config>
 
 	<welcome-file-list>

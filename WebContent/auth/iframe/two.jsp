@@ -20,25 +20,32 @@
 	var basePath ='${pageContext.request.contextPath}'	
 		
 	$.getJSON(basePath+"/user/res",{role: 'teacher'},function(data){
-		for(var i=0;i<data.length;i++){
-			var img = ''
-			if(data[i].imgpath){
-				img = data[i].imgpath
-			} else {
-				img = 'http://localhost:8080/courses/images/placeholder.jpg'
+		console.log(data)
+		if(data.length>0){
+			for(var i=0;i<data.length;i++){
+				var img = ''
+				if(data[i].imgpath){
+					img = data[i].imgpath
+				} else {
+					img = 'http://localhost:8080/courses/images/placeholder.jpg'
+				}
+				var panel = '<div class="col-md-3">'
+					+ '<div class="thumbnail">'
+					+ '<img src="'+img+'" alt="..." style="width: 229px;height: 177px;">'
+					+ '<div class="caption">' + '<h3 class="text-center">'+data[i].promiss+'</h3>'
+					+ '<p class="text-center">QQ:'+data[i].qq+'<br/>'
+					+ '电话:'+data[i].phone+'</p>'
+					+ '<p><a href="./t-two.jsp?realname='+escape(data[i].promiss)+'" class="btn btn-primary btn-block">查看选题</a></p>'
+					+ '</div>' + '</div>' + '</div>'
+					
+					$(panel).appendTo('.row')
 			}
-			var panel = '<div class="col-md-3">'
-				+ '<div class="thumbnail">'
-				+ '<img src="'+img+'" alt="..." style="width: 229px;height: 177px;">'
-				+ '<div class="caption">' + '<h3 class="text-center">'+data[i].promiss+'</h3>'
-				+ '<p class="text-center">QQ:'+data[i].qq+'<br/>'
-				+ '电话:'+data[i].phone+'</p>'
-				+ '<p><a href="./t-two.jsp?realname='+escape(data[i].promiss)+'" class="btn btn-primary btn-block">查看选题</a></p>'
-				+ '</div>' + '</div>' + '</div>'
-				
-				$(panel).appendTo('.row')
+		} else {
+			var collapse = '<button class="btn btn-primary btn-block disabled" style="font-weight:700;font-size:17px;letter-spacing:0.3em;border-radius:0" disabled>老师暂未出题,敬请等待</button>'
+				$(collapse).appendTo('body').animate({
+					marginTop: '240px'
+				},1300)
 		}
-		console.log(data.length)
 	})
 </script>
 

@@ -50,12 +50,12 @@
 				
 					<shiro:hasRole name="student">
 					<button data-toggle="modal" data-target=".bs" id="gg" style="display: none;"></button>
-					<a href="#select" data-src="./iframe/two.jsp">
-						<li class="open-menu"><span class="icon icon-clipboard2"></span>课题选择</li>
-					</a>
-					<a href="#upload" data-src="./iframe/three.jsp">
-						<li class="open-menu"><span class="icon icon-clipboard3"></span>选题查看及提交</li>
-					</a>
+						<a href="#select" data-src="./iframe/two.jsp">
+							<li class="open-menu"><span class="icon icon-clipboard2"></span>课题选择</li>
+						</a>
+						<a href="#upload" data-src="./iframe/three.jsp">
+							<li class="open-menu"><span class="icon icon-clipboard3"></span>选题查看及提交</li>
+						</a>
 					</shiro:hasRole>
 					<shiro:hasRole name="teacher">
 						<a href="#self" data-src="./iframe/t-two.jsp">
@@ -120,9 +120,6 @@
 	<script type="text/javascript" src="../js/list.js"></script>
 	<script type="text/javascript">
 		var shiro = '${user.role}'
-		if(shiro == '同学'){
-			$('#gg').click()
-		}
 		notice()
 		var basePath ='${pageContext.request.contextPath}'
 			$.get(basePath+"/user/res",{username:'${user.username}'},function(data){
@@ -131,17 +128,19 @@
 				}
 			})
 			$.post(basePath+"/admin/notice",{name:'${user.tname}'},function(data){
+				if(shiro == '同学'&&data.content){
+					$('#gg').click()
+				}
 				$('#t-content').text(data.content)
 				$('#t-time').text(new Date(data.time).toLocaleString())
 			})
 		function notice(){
-			$.post(basePath+"/admin/notice",{name:'管理员'},function(data){
+			$.post(basePath+"/admin/notice",{name:'超级管理员'},function(data){
 				if(data != "notice"&&data){
 					$('#notice').html("公告:     "+data.content+'<font color="gray">(公告发布时间:'+new Date(data.time).toLocaleString()+')</font>')
 				}
 			})
 		}
-		
-		console.log("%c有些样式我实在懒的写了,你要是看这觉得不爽的话可以联系我,我把源码给你,你来改","font-size:21px;color:gray;")
+		console.log("%c有些样式我实在懒的写了,你要是看这觉得不爽的话可以联系我,我把源码给你,你来改","font-size:30px;color:red;")
 	</script>
 </html>

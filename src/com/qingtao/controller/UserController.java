@@ -55,6 +55,13 @@ public class UserController {
 
 	@Autowired
 	private ImgServiceI imgService;
+	
+	@ResponseBody
+	@RequestMapping(value = "/forUser", method = RequestMethod.GET)
+	public User User(@RequestParam(value = "studentid", required = false) Long studentid) {
+		
+		return userService.selectOneUser(new User(null, studentid));
+	}
 
 	/**
 	 * 用户输入检测

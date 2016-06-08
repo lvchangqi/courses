@@ -54,8 +54,9 @@
 				<th>学号/工号</th>
 				<th>QQ号码</th>
 				<th>电话号码</th>
-				<th id="student">指导老师</th>
-				<th id="teacher">下载表格</th>
+				<th class="student">作品下载</th>
+				<th class="student">指导老师</th>
+				<th class="teacher">下载表格</th>
 				<th>删除用户</th>
 			</tr>
 		</thead>
@@ -95,8 +96,8 @@
 		//==遮罩层==//
 		var role = 'student'
 		getUsers(role)
-		$('#student').css('display','block')
-		$('#teacher').css('display','none')
+		$('.student').css('display','table-cell')
+		$('.teacher').css('display','none')
 		
 		$('.btn-switch').click(function(){
 			$(this).addClass('active').siblings().removeClass('active')
@@ -104,11 +105,11 @@
 			role = $(this).attr('role')
 			getUsers(role)
 			if(role =='student'){
-				$('#teacher').css('display','none')
-				$('#student').css('display','block')
+				$('.teacher').css('display','none')
+				$('.student').css('display','table-cell')
 			} else {
-				$('#teacher').css('display','block')
-				$('#student').css('display','none')
+				$('.teacher').css('display','table-cell')
+				$('.student').css('display','none')
 			}
 		})
 		
@@ -151,14 +152,21 @@
 						} else {
 							t = '<th>无</th>'
 						}
+						if(!data[i].hasUp){
+							down = '还未上传'
+						}
 						
 					} else if(!data[i].teacher){
 						t = '<th>还未上传</th>'
 					}
 					var row = '<tr>'+ '<th><input type="checkbox" name="users" value="'+data[i].studentid+'"/></th>' + '<th>'+data[i].username+'</th>' + '<th>'+data[i].promiss+'</th>' + '<th>'+data[i].studentid+'</th>'
-					+ '<th>'+data[i].qq+'</th>' + '<th>'+data[i].phone+'</th>' + t + '<th>'+btn+'</th>' + '</tr>'
+					+ '<th>'+data[i].qq+'</th>' + '<th>'+data[i].phone+'</th>'+'<th class="dw">'+down+'</th>' + t + '<th>'+btn+'</th>' + '</tr>'
 					
 					$('tbody').append(row)
+					
+					if(role =='teacher'){
+						$('.dw').remove()
+					}
 				}
 			})
 		}

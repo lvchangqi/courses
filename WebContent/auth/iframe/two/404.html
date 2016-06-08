@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>404</title>
+		<style type="text/css">
+			.container {
+				margin-top: 10%;
+				padding: 0 13%;
+			}
+			
+			.font {
+				margin-top: -240px;
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="img">
+				<img src="/courses/img/bg.png" alt="图片" width="330px" height="320px" />
+			</div>
+			<div class="font">
+				<span style="font-size: 103px;color:red;">404!</span><br>
+				<span style="font-size:20px;">真抱歉,您要访问的页面不存在</span><br>
+				<span style="font-size:20px;"><i style="color: red;">3s</i> 后将会返回前一个页面</span><br>
+			</div>
+		</div>
+	</body>
+	<script>
+		var i = 2
+		var s = document.getElementsByTagName('i')[0]
+		var time = setInterval(function() {
+			s.innerText = i + 's'
+			if (i == 0) {
+				window.history.back()
+				clearInterval(time)
+				i = 3
+			}
+			i--
+		}, 1000)
+	</script>
+
+</html>

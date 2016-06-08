@@ -37,7 +37,7 @@ public interface DesignServiceI {
 	 * @param sdesign
 	 */
 	void updateFile(SDesign sdesign);
-	
+
 	/**
 	 * 课题文件下载
 	 * 
