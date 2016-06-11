@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    	'<span class="other">备注:'+obj.other+'</span>'+
 			  '</div>'+
 			  '<div class="panel-footer ">'+
-			  	'<button class="btn btn-primary btn-block disabled" data-toggle="modal" data-target="#myModal">文档及源码上传</button>'+
+			  	'<button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">文档及源码上传</button>'+
 			  '</div>'+
 			'</div>'
 			
@@ -97,7 +97,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			if(data.ctitle){
 				$('.panel-title').text(data.ctitle)
 			}
-			
+			/*
 			if(!obj.tname){
 				$('button:last').tooltip({
 					'title' : '请修改课题名,修改后方可上传',
@@ -108,7 +108,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$('button:last').tooltip('show')
 			}else if(obj.tname == 'false'){
 				$('button:last').removeClass('disabled')
-			}else if(obj.tname == 'true'){
+			}else 
+			*/	
+			if(obj.tname == 'true'){
 				$('button:last').text('文件已上传,请等待老师查看与反馈')
 			}
 			

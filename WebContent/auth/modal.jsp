@@ -100,7 +100,7 @@
 	</body>
 <script type="text/javascript">
 $('input[type="reset"]').click(function(){
-	$("#img").removeAttr('src')
+	$("#imgface").removeAttr('src')
 	$('.con').css('z-index','1');
 })
 $("#img").change(function() {

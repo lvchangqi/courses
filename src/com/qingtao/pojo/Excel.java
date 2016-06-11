@@ -20,6 +20,16 @@ public class Excel {
 	private String major;// 专业
 
 	private Integer classes;// 班级
+	
+	private String ctitle;
+
+	public String getCtitle() {
+		return ctitle;
+	}
+
+	public void setCtitle(String ctitle) {
+		this.ctitle = ctitle;
+	}
 
 	public Long getStudentid() {
 		return studentid;

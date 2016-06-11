@@ -104,7 +104,6 @@
 				
 				$('.btn-export').click(function(){
 					$.get(basePath+"/admin/export/${user.studentid}")
-					alert("表格已经导入您E盘的根目录")
 				})
 				
 				$('#file').change(function(){

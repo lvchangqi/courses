@@ -124,7 +124,7 @@
 	<!-- 联动查询学生信息 -->
 	<select id="selectByTitle" parameterType="java.lang.String"
 		resultType="java.util.HashMap">
-		SELECT promiss,u.studentid,qq,phone,s.agree,s.ctitle FROM user
+		SELECT promiss,u.studentid,qq,phone,s.agree,s.ctitle,s.title FROM user
 		u,sdesign s
 		WHERE u.studentid = s.studentid AND s.tname =
 		#{tname.jdbcType=VARCHAR}

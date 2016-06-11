@@ -6,10 +6,11 @@
 		<result column="promiss" property="promiss" jdbcType="VARCHAR" />
 		<result column="title" property="title" jdbcType="VARCHAR" />
 		<result column="tname" property="tname" jdbcType="VARCHAR" />
+		<result column="ctitle" property="ctitle" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="excel" parameterType="java.lang.String" resultMap="ExcelPojo">
 		SELECT u.studentid,u.promiss,s.ctitle as
-		title,u.tname FROM `user` u, sdesign s
+		title,u.tname,s.title as ctitle FROM `user` u, sdesign s
 		WHERE s.studentid=u.studentid AND u.tname =#{promiss,jdbcType=VARCHAR}
 	</select>
 	<select id="excelsup" parameterType="java.lang.Long" resultType="java.lang.String">

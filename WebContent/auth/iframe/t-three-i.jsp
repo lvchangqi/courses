@@ -15,7 +15,7 @@
 </head>
 <body style="margin-top: 20px;">
 	<div class="col-md-12 text-right">
-		<button class="btn btn-primary btn-export">导出Excel表格</button>
+		<a class="btn btn-primary " href="${pageContext.request.contextPath}/admin/export/${user.studentid}">导出Excel表格</a>
 		<button class="btn btn-default btn-import" data-toggle="modal" data-target="#myModal">上传Excel表格</button>
 	</div>
 	
@@ -45,7 +45,7 @@
 	var collapse =  '<table class="table table-condensed table-hover">'
 			+ '<thead>' + '<tr class="bg-success">' + '<th>姓名</th>'
 			+ '<th>学号</th>' +'<th>学院名称</th>' + '<th>专业名称</th>'+'<th>班级</th>'
-			+ '<th>修改后的标题</th>' + '<th>QQ号码</th>' + '<th>电话号码</th>' + '<th>课程设计下载</th>' 
+			+ '<th>课题名</th>' + '<th>QQ号码</th>' + '<th>电话号码</th>' + '<th>课程设计下载</th>' 
 			+ '</tr>'
 			+ '</thead>' + '<tbody></tbody>' + '</table>' 
 	
@@ -59,9 +59,6 @@
 						},1300)
 					}else{
 						$(collapse).prependTo('body')
-					}
-				})
-				
 						$.post(basePath+'/user/title',{tname:'${user.promiss}'},function(data){
 							if(data.length != 0){
 								for(var i = 0;i<data.length;i++){
@@ -70,7 +67,7 @@
 										download = '暂未上传文件'
 									}
 									if(!data[i].ctitle){
-										data[i].ctitle = '未修改'
+										data[i].ctitle = data[i].title
 									}
 									$('tbody').append('<tr><td>'+data[i].promiss+'</td><td>'+data[i].studentid+'</td><td>'+data[i].college+'</td><td>'+data[i].major+'</td><td>'+data[i].classes+'</td><td>'+data[i].ctitle+'</td><td>'+data[i].qq+'</td><td>'+data[i].phone+'</td><td>'+download+'</td></tr>')
 								}
@@ -78,10 +75,7 @@
 								$('tbody').append('<tr><td colspan="9" class="text-center">暂时无人选择您的课题</td><tr>')
 							}
 						})
-				
-				$('.btn-export').click(function(){
-					$.get(basePath+"/admin/export/${user.studentid}")
-					alert("表格已经导入您C盘的根目录")
+					}
 				})
 				
 				$('#file').change(function(){

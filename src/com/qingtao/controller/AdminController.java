@@ -11,8 +11,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,15 +120,19 @@ public class AdminController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/export/{workid}", method = RequestMethod.GET)
-	public void exportExcel(@PathVariable("workid") Long workid, HttpSession session) throws Exception {
+	public ResponseEntity<byte[]> exportExcel(@PathVariable("workid") Long workid, HttpSession session) throws Exception {
 		String name = excelMapper.excelsup(workid);
 		List<Excel> list = excelMapper.excel(name);
 		Iterator<Excel> it = list.iterator();
 		while (it.hasNext()) {
 			Excel e = it.next();
 			e.setWorkid(workid);
-			e.setCredit(4);
+			e.setCredit(0);
 			e.setScore("");
+			if(e.getTitle() == null){
+				e.setTitle(e.getCtitle());
+			}
+			e.setCtitle("");
 			String id = String.valueOf(e.getStudentid());
 			// 2014116020312
 			if (Integer.parseInt(id.substring(4, 5)) == 3) {
@@ -135,7 +144,10 @@ public class AdminController {
 			}
 			e.setClasses(Integer.parseInt(id.substring(2, 4) + id.substring(9, 11)));
 		}
-		File file = new File("C:\\" + workid + "_" + name + ".xls");
+		
+		name =  workid + "_" + name;
+		String path = session.getServletContext().getRealPath("/") + "/WEB-INF/file/template/";
+		File file = new File(path + name + ".xls");
 		if (!file.exists()) {
 			HSSFWorkbook workbook = new HSSFWorkbook();
 			workbook.createSheet("Sheet1");
@@ -145,5 +157,13 @@ public class AdminController {
 			workbook.close();
 		}
 		new ExcelExport().excel(list, file, session);
+		byte[] fileByte = FileUtils.readFileToByteArray(file);
+		name = name+ "_学生信息表";
+		file.delete();
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentDispositionFormData("attachment",new String(name.getBytes("UTF-8"), "iso-8859-1"));
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		return new ResponseEntity<byte[]>(fileByte, headers, HttpStatus.CREATED);
 	}
 }
