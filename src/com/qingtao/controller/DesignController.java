@@ -3,10 +3,12 @@ package com.qingtao.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
@@ -182,19 +184,27 @@ public class DesignController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/download/{studentid}", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> fileDownload(@PathVariable("studentid") Long studentid) throws IOException {
-
+	public ResponseEntity<byte[]> fileDownload(@PathVariable("studentid") Long studentid,HttpServletRequest request) throws IOException {
+		//判断是否为IE
+		boolean isIE = request.getHeader("User-Agent").toLowerCase().indexOf("trident")>0?true:false;
+		
 		// 得到工程真实路径
 		SDesign realFile = designService.selectOne(studentid);
 		String path = realFile.getFile();
 		String name = realFile.getFilename();
-
+		
+		if(!isIE){
+			name = new String(name.getBytes("UTF-8"),"iso-8859-1");
+		} else {
+			name =URLEncoder.encode(name, "UTF-8");
+		}
+		
 		File file = new File(path);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentDispositionFormData("attachment", new String(name.getBytes("UTF-8"), "iso-8859-1"));
+		headers.setContentDispositionFormData("attachment", name);
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
 	}
 
 	/**

@@ -4,12 +4,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -120,7 +121,7 @@ public class AdminController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/export/{workid}", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> exportExcel(@PathVariable("workid") Long workid, HttpSession session) throws Exception {
+	public ResponseEntity<byte[]> exportExcel(@PathVariable("workid") Long workid,HttpServletRequest request) throws Exception {
 		String name = excelMapper.excelsup(workid);
 		List<Excel> list = excelMapper.excel(name);
 		Iterator<Excel> it = list.iterator();
@@ -146,7 +147,7 @@ public class AdminController {
 		}
 		
 		name =  workid + "_" + name;
-		String path = session.getServletContext().getRealPath("/") + "/WEB-INF/file/template/";
+		String path = request.getSession().getServletContext().getRealPath("/") + "/WEB-INF/file/template/";
 		File file = new File(path + name + ".xls");
 		if (!file.exists()) {
 			HSSFWorkbook workbook = new HSSFWorkbook();
@@ -156,14 +157,22 @@ public class AdminController {
 			out.close();
 			workbook.close();
 		}
-		new ExcelExport().excel(list, file, session);
+		new ExcelExport().excel(list, file, request.getSession());
 		byte[] fileByte = FileUtils.readFileToByteArray(file);
 		name = name+ "_学生信息表";
 		file.delete();
 		
+		//判断是否为IE*IE不是别201状态码
+		boolean isIE = request.getHeader("User-Agent").toLowerCase().indexOf("trident")>0?true:false;
+		if(!isIE){
+			name = new String(name.getBytes("UTF-8"),"iso-8859-1");
+		} else {
+			name =URLEncoder.encode(name, "UTF-8");
+		}
+		
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentDispositionFormData("attachment",new String(name.getBytes("UTF-8"), "iso-8859-1"));
+		headers.setContentDispositionFormData("attachment",name);
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-		return new ResponseEntity<byte[]>(fileByte, headers, HttpStatus.CREATED);
+		return new ResponseEntity<byte[]>(fileByte, headers, HttpStatus.OK);
 	}
 }

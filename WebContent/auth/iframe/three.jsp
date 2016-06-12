@@ -112,6 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			*/	
 			if(obj.tname == 'true'){
 				$('button:last').text('文件已上传,请等待老师查看与反馈')
+				$('button:last').addClass('disabled')
 			}
 			
 			$.get('${pageContext.request.contextPath}/user/forUser',{studentid:0},function(data){
