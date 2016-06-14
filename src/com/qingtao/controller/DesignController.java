@@ -221,14 +221,15 @@ public class DesignController {
 			return null;
 		} else {
 			String title = flag.getTitle();
-			String agree = flag.getAgree();
+//			String agree = flag.getAgree();
+			String tname = flag.getTname();
 			String ctitle = flag.getCtitle();
 
 			Map<String, String> map = new HashMap<>();
 			map.put("title", title);
 
 			Design design = designService.selectAll(map).get(0);
-			design.setTname(agree);
+			design.setTname(tname);
 
 			Map<String, Object> resultMap = new HashMap<>();
 			resultMap.put("obj", design);

@@ -52,6 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    '<h3 class="panel-title">'+obj.title+
 			    '&nbsp;&nbsp;&nbsp;'+
 			    '<button class="btn btn-default btn-ct">修改课题名</button>'+
+			    '<span class="tname" style="float:right;margin:10px 20px 0 0;">指导老师: '+obj.tname+'</span>'+
 			    '</h3>'+
 			  '</div>'+
 			  '<div class="panel-body" style="padding: 40px">'+
@@ -109,12 +110,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}else if(obj.tname == 'false'){
 				$('button:last').removeClass('disabled')
 			}else 
-			*/	
 			if(obj.tname == 'true'){
 				$('button:last').text('文件已上传,请等待老师查看与反馈')
 				$('button:last').addClass('disabled')
 			}
-			
+			*/
 			$.get('${pageContext.request.contextPath}/user/forUser',{studentid:0},function(data){
 				if(!data.teacher){
 					$('.btn-div').css('display','block')

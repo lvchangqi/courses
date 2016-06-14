@@ -22,8 +22,18 @@ public class User {
 	private String tname;
 	
 	private String hasUp;
+	
+	private String title;//级联
+	
+    public String getTitle() {
+		return title;
+	}
 
-    public String getHasUp() {
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getHasUp() {
 		return hasUp;
 	}
 

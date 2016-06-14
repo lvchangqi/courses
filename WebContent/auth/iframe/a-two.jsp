@@ -40,7 +40,7 @@
 </style>
 </head>
 <body>
-	<table class="table table-condensed table-hover">
+	<table class="table table-condensed table-hover table-bordered">
 		<caption style="padding: 10px 0;">
 			<button class="btn btn-primary active btn-switch" role="student">学&nbsp;&nbsp;&nbsp;&nbsp;生</button>
 			<button class="btn btn-primary btn-switch" role="teacher">教&nbsp;&nbsp;&nbsp;&nbsp;师</button>
@@ -49,18 +49,22 @@
 		<thead>
 			<tr class="bg-info">
 				<th><button id="all" class="btn btn-default btn-xs"></button>全选/反选</th>
-				<th>用户名</th>
+				<th class="course">用户名</th>
 				<th>真实姓名</th>
 				<th>学号/工号</th>
 				<th>QQ号码</th>
 				<th>电话号码</th>
 				<th class="student">作品下载</th>
+				<th class="student">工作室指导老师</th>
 				<th class="student">指导老师</th>
 				<th class="teacher">下载表格</th>
 				<th>删除用户</th>
 			</tr>
 		</thead>
-		<tbody></tbody>
+		<tbody>
+		
+			
+		</tbody>
 	</table>
 	<div class="over">
 		<div class="content">
@@ -81,7 +85,7 @@
 			sid = $(this).parents().siblings('th').eq(3).text()
 			$('.over').css('display','block')
 			$.getJSON(basePath+'/user/selectAll',{role:'teacher'},function(data){
-				if(data)
+				if(data&&$('select').find('option').length===0)
 					for(var i =0;i<data.length;i++){
 						$('<option value="'+data[i].promiss+'">'+data[i].promiss+'</option>').appendTo('select')
 					}
@@ -141,12 +145,28 @@
 		
 				
 		function getUsers(role) {
+			var hr13 = '<tr class="hr13">'+
+						'<td colspan="11" align="center" style="font-weight: 900;background-color:#F5F5F5;">13级</td>'+
+					 '</tr>'
+			var hr14 = '<tr class="hr14">'+
+						'<td colspan="11" align="center" style="font-weight: 900;background-color:#F5F5F5;">14级</td>'+
+					 '</tr>'
+			if(role == 'student'){
+				$(hr13).prependTo('tbody')
+				$(hr14).prependTo('tbody')
+			}
 			$.get(basePath+'/user/selectAll',{role:role},function(data){
 				for(var i=0;i<data.length;i++){
 					var btn = '<button class="btn btn-danger btn-xs btn-delete" data-id="'+data[i].studentid+'">删除</button>'
 					var down = '<a href="'+basePath+'/design/download/'+data[i].studentid+'" class="btn btn-xs btn-primary">下载</a>'
 					var t = '<th>'+down+'</th>'
 					if(role =='student'){
+						$('.course').text('课题名称')
+						if(data[i].title){
+							data[i].username = data[i].title
+						} else {
+							data[i].username = "无"
+						}
 						if(data[i].tname){
 							t = '<th><button class="btn btn-default btn-xs btn-t">'+data[i].tname+'</button></th>'
 						} else {
@@ -155,17 +175,26 @@
 						if(!data[i].hasUp){
 							down = '还未上传'
 						}
-						
+						if(!data[i].teacher){
+							data[i].teacher = '无'
+						}
 					} else if(!data[i].teacher){
 						t = '<th>还未上传</th>'
 					}
 					var row = '<tr>'+ '<th><input type="checkbox" name="users" value="'+data[i].studentid+'"/></th>' + '<th>'+data[i].username+'</th>' + '<th>'+data[i].promiss+'</th>' + '<th>'+data[i].studentid+'</th>'
-					+ '<th>'+data[i].qq+'</th>' + '<th>'+data[i].phone+'</th>'+'<th class="dw">'+down+'</th>' + t + '<th>'+btn+'</th>' + '</tr>'
+					+ '<th>'+data[i].qq+'</th>' + '<th>'+data[i].phone+'</th>'+ '<th class="dw">'+down+'</th>' + '<th class="dw">'+data[i].teacher+'</th>'+ t + '<th>'+btn+'</th>' + '</tr>'
+					//2014116020312
+					if(data[i].studentid.toString().substring(2,4)=="14"){
+						$('.hr14').after(row)
+					} else {
+						$('.hr13').after(row)
+					}
 					
-					$('tbody').append(row)
 					
 					if(role =='teacher'){
-						$('.dw').remove()
+						$('tbody').append(row)
+						$('.course').text('用户名')
+						$('.dw,.hr14,.hr13').remove()
 					}
 				}
 			})

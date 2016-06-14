@@ -55,11 +55,11 @@ public class UserController {
 
 	@Autowired
 	private ImgServiceI imgService;
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/forUser", method = RequestMethod.GET)
 	public User User(@RequestParam(value = "studentid", required = false) Long studentid) {
-		
+
 		return userService.selectOneUser(new User(null, studentid));
 	}
 
@@ -290,7 +290,6 @@ public class UserController {
 		return userService.selectAll(map);
 	}
 
-
 	/**
 	 * 查询选择课题用户并返回
 	 * 
@@ -302,26 +301,29 @@ public class UserController {
 	@RequestMapping(value = "/title", method = RequestMethod.POST)
 	public List<Map<String, String>> selectByTitle(@RequestParam("tname") String tname)
 			throws UnsupportedEncodingException {
-		List<Map<String ,String>> list = userService.selectByTitle(tname);
+		List<Map<String, String>> list = userService.selectByTitle(tname);
 		String major = "信息工程";
 		String college = "教育信息与技术学院";
-		List<Map<String ,String>> resultList = new ArrayList<>();
-		
-		Iterator<Map<String ,String>> it = list.iterator();
-		while(it.hasNext()){
+		List<Map<String, String>> resultList = new ArrayList<>();
+
+		Iterator<Map<String, String>> it = list.iterator();
+		while (it.hasNext()) {
 			Map<String, String> map = it.next();
 			String id = String.valueOf(map.get("studentid"));
 			int classes = Integer.parseInt(id.substring(2, 4) + id.substring(9, 11));
 			if (Integer.parseInt(id.substring(4, 5)) == 3) {
 				major = "电子信息工程";
 				college = "文理学院";
+			} else if (Integer.parseInt(id.substring(4, 5)) == 1) {
+				major = "信息工程";
+				college = "教育信息与技术学院";
 			}
 			map.put("major", major);
-			map.put("classes",String.valueOf(classes));
+			map.put("classes", String.valueOf(classes));
 			map.put("college", college);
 			resultList.add(map);
 		}
-		
+
 		return resultList;
 	}
 

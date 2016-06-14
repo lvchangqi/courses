@@ -65,7 +65,7 @@ public class AdminController {
 	public Object notice(@RequestParam(value = "notice", required = false) String notice,
 			@RequestParam(value = "name") String name) {
 		if (notice != null) {
-			Map<String ,String> map = new HashMap<>();
+			Map<String, String> map = new HashMap<>();
 			map.put("name", name);
 			map.put("content", notice);
 			noticeMapper.insert(map);
@@ -114,14 +114,15 @@ public class AdminController {
 	}
 
 	/**
-	 * 到出excel表
+	 * 导出excel表
 	 * 
 	 * @param workid
 	 * @param session
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/export/{workid}", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> exportExcel(@PathVariable("workid") Long workid,HttpServletRequest request) throws Exception {
+	public ResponseEntity<byte[]> exportExcel(@PathVariable("workid") Long workid, HttpServletRequest request)
+			throws Exception {
 		String name = excelMapper.excelsup(workid);
 		List<Excel> list = excelMapper.excel(name);
 		Iterator<Excel> it = list.iterator();
@@ -130,7 +131,7 @@ public class AdminController {
 			e.setWorkid(workid);
 			e.setCredit(0);
 			e.setScore("");
-			if(e.getTitle() == null){
+			if (e.getTitle() == null) {
 				e.setTitle(e.getCtitle());
 			}
 			e.setCtitle("");
@@ -145,8 +146,8 @@ public class AdminController {
 			}
 			e.setClasses(Integer.parseInt(id.substring(2, 4) + id.substring(9, 11)));
 		}
-		
-		name =  workid + "_" + name;
+
+		name = workid + "_" + name;
 		String path = request.getSession().getServletContext().getRealPath("/") + "/WEB-INF/file/template/";
 		File file = new File(path + name + ".xls");
 		if (!file.exists()) {
@@ -159,19 +160,19 @@ public class AdminController {
 		}
 		new ExcelExport().excel(list, file, request.getSession());
 		byte[] fileByte = FileUtils.readFileToByteArray(file);
-		name = name+ "_学生信息表";
+		name = name + "_学生信息表" + ".xls";
 		file.delete();
-		
-		//判断是否为IE*IE不是别201状态码
-		boolean isIE = request.getHeader("User-Agent").toLowerCase().indexOf("trident")>0?true:false;
-		if(!isIE){
-			name = new String(name.getBytes("UTF-8"),"iso-8859-1");
+
+		// 判断是否为IE*IE不识别201状态码
+		boolean isIE = request.getHeader("User-Agent").toLowerCase().indexOf("trident") > 0 ? true : false;
+		if (!isIE) {
+			name = new String(name.getBytes("UTF-8"), "iso-8859-1");
 		} else {
-			name =URLEncoder.encode(name, "UTF-8");
+			name = URLEncoder.encode(name, "UTF-8");
 		}
-		
+
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentDispositionFormData("attachment",name);
+		headers.setContentDispositionFormData("attachment", name);
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(fileByte, headers, HttpStatus.OK);
 	}

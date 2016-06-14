@@ -69,6 +69,10 @@
 							<input type="text" name="studentid" id="study" placeholder="学号/工号" required="required" class="form-control" style="width: 76%" />
 						</div>
 						<div class="form-group form-inline">
+							<label for="teacher">指导老师:</label>
+							<input type="text" name="teacher" id="teacher" placeholder="工作室老师指导老师(选填)"  class="form-control" style="width: 76%" />
+						</div>
+						<div class="form-group form-inline">
 							<label for="QQ">Q&nbsp;Q号码:</label>
 							<input type="text" name="qq" id="QQ" placeholder="QQ" required="required" class="form-control" style="width: 76%"/>
 						</div>

@@ -58,7 +58,15 @@
 							marginTop: '240px'
 						},1300)
 					}else{
+						var hr13 = '<tr class="hr13">'+
+							'<td colspan="11" align="center" style="font-weight: 900;background-color:#F5F5F5;">13级</td>'+
+					 		'</tr>'
+						var hr14 = '<tr class="hr14">'+
+							'<td colspan="11" align="center" style="font-weight: 900;background-color:#F5F5F5;">14级</td>'+
+							'</tr>'
 						$(collapse).prependTo('body')
+						$(hr13).prependTo('tbody')
+						$(hr14).prependTo('tbody')
 						$.post(basePath+'/user/title',{tname:'${user.promiss}'},function(data){
 							if(data.length != 0){
 								for(var i = 0;i<data.length;i++){
@@ -69,7 +77,12 @@
 									if(!data[i].ctitle){
 										data[i].ctitle = data[i].title
 									}
-									$('tbody').append('<tr><td>'+data[i].promiss+'</td><td>'+data[i].studentid+'</td><td>'+data[i].college+'</td><td>'+data[i].major+'</td><td>'+data[i].classes+'</td><td>'+data[i].ctitle+'</td><td>'+data[i].qq+'</td><td>'+data[i].phone+'</td><td>'+download+'</td></tr>')
+									var row ='<tr><td>'+data[i].promiss+'</td><td>'+data[i].studentid+'</td><td>'+data[i].college+'</td><td>'+data[i].major+'</td><td>'+data[i].classes+'</td><td>'+data[i].ctitle+'</td><td>'+data[i].qq+'</td><td>'+data[i].phone+'</td><td>'+download+'</td></tr>'
+									if(data[i].studentid.toString().substring(2,4)=="14"){
+										$('.hr14').after(row)
+									} else {
+										$('.hr13').after(row)
+									}
 								}
 							} else {
 								$('tbody').append('<tr><td colspan="9" class="text-center">暂时无人选择您的课题</td><tr>')

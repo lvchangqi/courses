@@ -9,7 +9,7 @@ $(function(){
 	$(".isbtn").click(function() {
 		$(".preloading").css("display", "none").next().css("display", "block");
 	})
-	$('.main-banner').css('height', window.innerHeight);
+	$('.main-banner').css('height', window.innerHeight*1.12);
 	/**样式调整**/
 	
 		var flag = new Array(false,false,false,false,false,false);//开关数组

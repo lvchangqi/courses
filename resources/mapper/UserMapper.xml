@@ -95,6 +95,9 @@
 			<if test="promiss != null">
 				promiss,
 			</if>
+			<if test="teacher != null">
+				teacher,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="username != null">
@@ -118,31 +121,43 @@
 			<if test="promiss != null">
 				#{promiss,jdbcType=VARCHAR},
 			</if>
+			<if test="teacher != null">
+				#{teacher,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 
 	<!-- 联动查询学生信息 -->
 	<select id="selectByTitle" parameterType="java.lang.String"
 		resultType="java.util.HashMap">
-		SELECT promiss,u.studentid,qq,phone,s.agree,s.ctitle,s.title FROM user
+		SELECT
+		promiss,u.studentid,qq,phone,s.agree,s.ctitle,s.title FROM user
 		u,sdesign s
 		WHERE u.studentid = s.studentid AND s.tname =
 		#{tname.jdbcType=VARCHAR}
 	</select>
 
 	<!-- 管理员查询 -->
-	<select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from user 
-		<if test="role != null">
-			where role = '${role}'
-		</if>
+	<select id="selectAll" parameterType="java.util.Map" resultType="com.qingtao.pojo.User">
+		<choose>
+			<when test="role == 'student'">
+				SELECT `user`.*, sdesign.title FROM `user` left JOIN
+				sdesign ON
+				sdesign.studentid = `user`.studentid WHERE
+				`user`.role='${role}'
+			</when>
+			<when test="role == 'teacher'">
+				SELECT
+				<include refid="Base_Column_List" />
+				FROM `user` WHERE role ='${role}'
+			</when>
+		</choose>
 	</select>
-	
+
 	<delete id="delete">
 		delete from user where studentid in
-		<foreach collection="array" item="item" open="(" separator="," close=")">
+		<foreach collection="array" item="item" open="(" separator=","
+			close=")">
 			#{item}
 		</foreach>
 	</delete>
