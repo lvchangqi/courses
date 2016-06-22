@@ -141,7 +141,7 @@
 	<select id="selectAll" parameterType="java.util.Map" resultType="com.qingtao.pojo.User">
 		<choose>
 			<when test="role == 'student'">
-				SELECT `user`.*, sdesign.title FROM `user` left JOIN
+				SELECT `user`.*, sdesign.title, sdesign.ctitle FROM `user` left JOIN
 				sdesign ON
 				sdesign.studentid = `user`.studentid WHERE
 				`user`.role='${role}'

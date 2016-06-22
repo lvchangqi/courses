@@ -25,7 +25,17 @@ public class User {
 	
 	private String title;//级联
 	
-    public String getTitle() {
+	private String ctitle;//级联
+	
+    public String getCtitle() {
+		return ctitle;
+	}
+
+	public void setCtitle(String ctitle) {
+		this.ctitle = ctitle;
+	}
+
+	public String getTitle() {
 		return title;
 	}
 

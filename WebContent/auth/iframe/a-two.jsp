@@ -163,7 +163,11 @@
 					if(role =='student'){
 						$('.course').text('课题名称')
 						if(data[i].title){
-							data[i].username = data[i].title
+							if(data[i].ctitle){
+								data[i].username = data[i].ctitle
+							}else{
+								data[i].username = data[i].title
+							}
 						} else {
 							data[i].username = "无"
 						}
