@@ -60,7 +60,7 @@ public class Mail implements Runnable{
 		//得到transport对象
 		Transport transport = session.getTransport();
 		//连接服务商
-		transport.connect("smtp.qq.com","tiantang201@qq.com", "daxieA0201");
+		transport.connect("smtp.qq.com","account", "password");
 		//创建邮件
 		Message message = createMail(session);
 		//发送邮件
@@ -78,7 +78,7 @@ public class Mail implements Runnable{
 		//邮件对象
 		MimeMessage mime = new MimeMessage(session);
 		//发件人
-		mime.setFrom(new InternetAddress("tiantang201@qq.com"));
+		mime.setFrom(new InternetAddress("account"));
 		//收件人
 		mime.setRecipient(Message.RecipientType.TO, new InternetAddress(toAddress));
 		//标题
